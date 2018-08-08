@@ -4,6 +4,9 @@
 
 ### NOTE: this project is an active work in progress
 
+This attempts to follow the coding paradigms of
+[docker-py](https://github.com/docker/docker-py) fairly closely.
+
 ## Sketch !
 
 ```python
