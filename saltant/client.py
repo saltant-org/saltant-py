@@ -9,6 +9,7 @@ class Client:
         Essentially copying this:
         https://github.com/docker/docker-py/blob/master/docker/client.py#L43
         """
+        pass
 
 # Allow conventient import access to environment-configured client
 from_env = Client.from_env
