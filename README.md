@@ -1,4 +1,4 @@
-![Python version](https://img.shields.io/badge/python-3-blue.svg)
+[![Build Status](https://travis-ci.com/mwiens91/saltant-py.svg?branch=master)](https://travis-ci.com/mwiens91/saltant-py)
 
 # saltant SDK for Python
 
