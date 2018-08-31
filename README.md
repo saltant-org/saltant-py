@@ -67,3 +67,11 @@ while True:
         print("noo!")
         break
 ```
+
+## Installation
+
+Using pip,
+
+```
+pip install saltant-py
+```
