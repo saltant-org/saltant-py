@@ -17,6 +17,7 @@ from saltant.exceptions import (
     BadEnvironmentError,
 )
 from saltant.models import (
+    ContainerTaskInstanceManager,
     ExecutableTaskInstanceManager,
 )
 
@@ -63,6 +64,8 @@ class Client:
         self.test_authentication()
 
         # Add in model managers
+        self.container_task_instances = (
+            ContainerTaskInstanceManager(_client=self))
         self.executable_task_instances = (
             ExecutableTaskInstanceManager(_client=self))
 

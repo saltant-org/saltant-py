@@ -9,8 +9,8 @@ from .base_task_instance import (
 )
 
 
-class ExecutableTaskInstance(BaseTaskInstance):
-    """Model for executable task instances.
+class ContainerTaskInstance(BaseTaskInstance):
+    """Model for container task instances.
 
     Attributes:
         name (str): The name of the task instance.
@@ -29,8 +29,8 @@ class ExecutableTaskInstance(BaseTaskInstance):
     pass
 
 
-class ExecutableTaskInstanceManager(BaseTaskInstanceManager):
-    """Manager for executable task instances.
+class ContainerTaskInstanceManager(BaseTaskInstanceManager):
+    """Manager for container task instances.
 
     Attributes:
         _client (:py:class:`saltant.client.Client`): An authenticated
@@ -40,6 +40,6 @@ class ExecutableTaskInstanceManager(BaseTaskInstanceManager):
         model (:py:class:`saltant.models.resource.Model`): The model of
             the task instance being used.
     """
-    list_url = 'executabletaskinstances/'
-    detail_url = 'executabletaskinstances/{uuid}/'
-    model = ExecutableTaskInstance
+    list_url = 'containertaskinstances/'
+    detail_url = 'containertaskinstances/{uuid}/'
+    model = ContainerTaskInstance

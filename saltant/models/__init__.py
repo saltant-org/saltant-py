@@ -1,5 +1,4 @@
 """Allow easy import access for model classes."""
 
-from .executable_task_instance import (
-    ExecutableTaskInstanceManager,
-)
+from .container_task_instance import ContainerTaskInstanceManager
+from .executable_task_instance import ExecutableTaskInstanceManager
