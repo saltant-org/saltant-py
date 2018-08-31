@@ -4,6 +4,9 @@
 # TODO(mwiens91): specify what happens when default timeout is exhausted
 
 import os
+import requests
+from saltant.constants import DEFAULT_TIMEOUT_SECONDS
+from saltant.exceptions import BadEnvironmentError
 
 
 class Client:
@@ -21,13 +24,8 @@ class Client:
         ...     hostname='https://shahlabjobs.ca',
         ...     auth_token='p0gch4mp101fy451do9uod1s1x9i4a')
 
-    Args:
+    Attributes:
         hostname (str): The URL of the saltant API.
-        username (str): The registered user's name.
-        password (str): The registered user's password.
-        auth_token (str): The registered user's authentication token.
-        default_timeout (int): The maximum number of seconds to wait for
-            a request to complete. Defaults to 90 seconds.
     """
     def __init__(
             self,
@@ -35,12 +33,23 @@ class Client:
             username=None,
             password=None,
             auth_token=None,
-            default_timeout=90):
-        """Initialize the saltant API client."""
-        pass
+            default_timeout=DEFAULT_TIMEOUT_SECONDS):
+        """Initialize the saltant API client.
+
+        Args:
+            hostname (str): The URL of the saltant API.
+            username (str): The registered user's name.
+            password (str): The registered user's password.
+            auth_token (str): The registered user's authentication token.
+            default_timeout (:obj:`int`, optional): The maximum number
+                of seconds to wait for a request to complete. Defaults
+                to 90 seconds.
+        """
+        # TODO(mwiens91): use the timeout
+        self.hostname = hostname
 
     @classmethod
-    def from_env(cls):
+    def from_env(cls, default_timeout=DEFAULT_TIMEOUT_SECONDS):
         """Return a client configured from environment variables.
 
         Essentially copying this:
@@ -73,8 +82,50 @@ class Client:
 
             >>> import saltant
             >>> client = saltant.from_env()
+
+        Args:
+            default_timeout (:obj:`int`, optional): The maximum number
+                of seconds to wait for a request to complete. Defaults to 90
+                seconds.
+
+        Returns:
+            :class:`Client`: A saltant API client object.
+
+        Raises:
+            :class:`BadEnvironmentError`: The user has an incorrectly
+                configured environment.
         """
-        pass
+        # Get variables from environment
+        try:
+            hostname = os.environ['SALTANT_HOSTNAME']
+        except KeyError:
+            raise BadEnvironmentError("SALTANT_HOSTNAME not defined!")
+
+        try:
+            # Try to get an auth token
+            auth_token = os.environ['SALTANT_AUTH_TOKEN']
+
+            # Return the configured client
+            return cls(
+                hostname=hostname,
+                auth_token=auth_token,
+                default_timeout=default_timeout,)
+        except KeyError:
+            pass
+
+        # No auth token available. Try getting username and password.
+        username = os.environ.get('SALTANT_USERNAME')
+        password = os.environ.get('SALTANT_PASSWORD')
+
+        if not username or not password:
+            raise BadEnvironmentError("Authentication env vars not defined!")
+
+        # Return the configured client
+        return cls(
+            hostname=hostname,
+            username=username,
+            password=password,
+            default_timeout=default_timeout,)
 
 
 # Allow convenient import access to environment-configured client
