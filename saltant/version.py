@@ -1,5 +1,5 @@
 """Contains name, version, and description."""
 
-NAME = 'saltant'
+NAME = 'saltant-py'
 VERSION = '0.0.0'
 DESCRIPTION = "saltant SDK for Python"
