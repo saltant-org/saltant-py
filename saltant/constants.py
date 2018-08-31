@@ -1,6 +1,5 @@
 """Contains constants for the program."""
 
-
 # How many seconds to wait for a request response
 DEFAULT_TIMEOUT_SECONDS = 90
 

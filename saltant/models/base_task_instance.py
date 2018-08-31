@@ -9,7 +9,6 @@ from saltant.constants import (
     HTTP_200_OK,
     HTTP_201_CREATED,
 )
-
 from .resource import Model, ModelManager
 
 
@@ -115,10 +114,10 @@ class BaseTaskInstanceManager(ModelManager):
         return self.response_data_to_model_instance(response.json())
 
     def create(self,
-            task_type_id,
-            task_queue_id,
-            arguments=None,
-            name="",):
+               task_type_id,
+               task_queue_id,
+               arguments=None,
+               name="",):
         """Create a task instance.
 
         Args:
