@@ -95,7 +95,7 @@ class BaseTaskInstanceManager(ModelManager):
 
         Returns:
             :obj:`saltant.models.base_task_instance.BaseTaskInstance`:
-                An task instance model instance representing the task
+                A task instance model instance representing the task
                 instance requested.
         """
         # Get the object
@@ -133,7 +133,7 @@ class BaseTaskInstanceManager(ModelManager):
 
         Returns:
             :obj:`saltant.models.base_task_instance.BaseTaskInstance`:
-                An task instance model instance representing the task
+                A task instance model instance representing the task
                 instance just created.
         """
         # Make arguments an empty dictionary if None
@@ -167,8 +167,9 @@ class BaseTaskInstanceManager(ModelManager):
             response_data (dict): The data from the request's response.
 
         Returns:
-            :py:obj:`saltant.models.resource.Model`: A model instance
-                representing the task instance from the reponse data.
+            :py:obj:`saltant.models.resource.Model`:
+                A model instance representing the task instance from the
+                reponse data.
         """
         # Coerce datetime strings into datetime objects
         response_data['datetime_created'] = (
