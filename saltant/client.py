@@ -59,6 +59,24 @@ class Client:
         # Test that we're authorized
         self.test_authentication()
 
+    def test_authentication(self):
+        """Test that the client is authorized.
+
+        This currently assumes that read-only operations require
+        authentication, which is the intended authentication protocol
+        for saltant servers.
+
+        Raises:
+            :py:class:`saltant.exceptions.AuthenticationError`: The
+                authentication provided was invalid.
+        """
+        response = self.session.get(self.base_api_url + 'users/')
+
+        try:
+            assert response.status_code == HTTP_200_OK
+        except AssertionError:
+            raise AuthenticationError('Authentication invalid!')
+
     @classmethod
     def from_env(cls, default_timeout=DEFAULT_TIMEOUT_SECONDS):
         """Return a client configured from environment variables.
@@ -111,24 +129,6 @@ class Client:
             base_api_url=base_api_url,
             auth_token=auth_token,
             default_timeout=default_timeout,)
-
-    def test_authentication(self):
-        """Test that the client is authorized.
-
-        This currently assumes that read-only operations require
-        authentication, which is the intended authentication protocol
-        for saltant servers.
-
-        Raises:
-            :py:class:`saltant.exceptions.AuthenticationError`: The
-                authentication provided was invalid.
-        """
-        response = self.session.get(self.base_api_url + 'users/')
-
-        try:
-            assert response.status_code == HTTP_200_OK
-        except AssertionError:
-            raise AuthenticationError('Authentication invalid!')
 
 
 # Allow convenient import access to environment-configured client

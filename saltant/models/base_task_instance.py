@@ -3,12 +3,15 @@
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
+from .resource import Model
 
 
-class BaseTaskInstance(object):
+class BaseTaskInstance(Model):
     """Base class for a task instance.
 
     Attributes:
+        _client (:py:class:`saltant.client.Client`): An authenticated
+            saltant client.
         name (str): The name of the task instance.
         uuid (str): The UUID of the task instance.
         state (str): The state of the task instance.
@@ -23,7 +26,8 @@ class BaseTaskInstance(object):
         arguments (dict): The arguments the task instance was run with.
     """
     def __init__(
-            self
+            self,
+            _client,
             name,
             uuid,
             user,
@@ -35,6 +39,8 @@ class BaseTaskInstance(object):
         """Initialize a task instance.
 
         Args:
+            _client (:py:class:`saltant.client.Client`): An
+                authenticated saltant client.
             name (str): The name of the task instance.
             uuid (str): The UUID of the task instance.
             state (str): The state of the task instance.
@@ -49,6 +55,9 @@ class BaseTaskInstance(object):
             arguments (dict): The arguments the task instance was run
                 with.
         """
+        # Call the base model constructor
+        super(BaseTaskInstance, self).__init__(_client)
+
         self.name = name
         self.uuid = uuid
         self.user = user
