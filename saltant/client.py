@@ -30,7 +30,7 @@ class Client:
 
     Attributes:
         base_api_url (str): The URL of the saltant API.
-        session (:class:`request.Session`): A session object to make
+        session (:class:`requests.Session`): A session object to make
             requests with.
     """
     def __init__(
