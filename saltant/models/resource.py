@@ -6,6 +6,13 @@ from __future__ import print_function
 from saltant.exceptions import BadHttpRequestError
 
 
+class Model(object):
+    """Base class for representing a model."""
+    def __str__(self):
+        """String representation of model."""
+        raise NotImplementedError
+
+
 class ModelManager(object):
     """Base class for a model manager.
 
@@ -14,9 +21,12 @@ class ModelManager(object):
             saltant client.
         list_url (str): The URL to list models.
         detail_url (str): The URL format to get specific models.
+        model (:py:class:`saltant.models.resource.Model`): The model
+            being used.
     """
     list_url = "NotImplemented"
     detail_url = "NotImplemented"
+    model = Model
 
     def __init__(self, _client):
         """Save the client so we can make API calls in the manager.
@@ -37,6 +47,15 @@ class ModelManager(object):
 
     def create(self):
         """Create an instance of a model."""
+        raise NotImplementedError
+
+    @classmethod
+    def response_data_to_model_instance(cls, response_data):
+        """Convert response data to a model.
+
+        Args:
+            response_data (dict): The data from the request's response.
+        """
         raise NotImplementedError
 
     @staticmethod
@@ -63,10 +82,3 @@ class ModelManager(object):
                 request_url,
                 status_code,)
             raise BadHttpRequestError(msg)
-
-
-class Model(object):
-    """Base class for representing a model."""
-    def __str__(self):
-        """String representation of model."""
-        raise NotImplementedError

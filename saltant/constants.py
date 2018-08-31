@@ -7,7 +7,7 @@ DEFAULT_TIMEOUT_SECONDS = 90
 
 # Useful HTTP status codes (nice and verbose :D)
 HTTP_200_OK = 200
-HTTP_401_UNAUTHORIZED = 401
+HTTP_201_CREATED = 201
 
 
 # Options for the task instance's state field
