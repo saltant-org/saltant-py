@@ -41,7 +41,7 @@ class Client:
             username (str): The registered user's name.
             password (str): The registered user's password.
             auth_token (str): The registered user's authentication token.
-            default_timeout (:obj:`int`, optional): The maximum number
+            default_timeout (int, optional): The maximum number
                 of seconds to wait for a request to complete. Defaults
                 to 90 seconds.
         """
@@ -84,16 +84,16 @@ class Client:
             >>> client = saltant.from_env()
 
         Args:
-            default_timeout (:obj:`int`, optional): The maximum number
-                of seconds to wait for a request to complete. Defaults to 90
-                seconds.
+            default_timeout (int, optional): The maximum number of
+                seconds to wait for a request to complete. Defaults to
+                90 seconds.
 
         Returns:
             :class:`Client`: A saltant API client object.
 
         Raises:
-            :class:`BadEnvironmentError`: The user has an incorrectly
-                configured environment.
+            :py:class:`saltant.exceptions.BadEnvironmentError`: The user
+                has an incorrectly configured environment.
         """
         # Get variables from environment
         try:
