@@ -10,29 +10,60 @@
 This attempts to follow the coding paradigms of
 [docker-py](https://github.com/docker/docker-py) fairly closely.
 
-## Sketch !
+## Example
 
 ```python
-"""Sketch code for development.
+from __future__ import print_function
+import time
+from saltant import Client
+from saltant.constants import (
+    SUCCESSFUL,
+    FAILED,
+)
 
-To be updated whenever I don't have a clear way forward (provided spare
-time, etc).
-"""
-from saltant.main import Client
+API_TOKEN = 'p0gch4mp101fy451do9uod1s1x9i4a'
+API_BASE_URL = 'https://shahlabjobs.ca/api/'
+TASK_INSTANCE_UUID_TO_GET = '4ce0f9f1-9ae3-4baf-8838-76a19758fb29'
 
-SALTANT_API_URL = "https://asdlkfajklfs.com/api"
-SALTANT_AUTH_TOKEN = "1j2h3iou13h" # or could use USERNAME and PASSWORD
 
-# Connect to the saltant server
-my_saltant = Client(
-    url=SALTANT_API_URL,
-    auth_token=SALTANT_AUTH_TOKEN,)
+# Instantiate a Client object
+client = Client(base_api_url=API_BASE_URL, auth_token=API_TOKEN)
 
-# My stuff
-my_saltant.user.task_types
-my_saltant.user.id
+# GET a task instance we know the UUID of. This will return an instance
+# of the ExecutableTaskInstance model.
+my_task_instance = client.executable_task_instances.get(
+    uuid=TASK_INSTANCE_UUID_TO_GET)
 
-# Create an instance
-my_saltant.task_types.list(
-    iregex="asdf",)
+# List attributes and methods of the task instance we just got.
+print(dir(my_task_instance))
+
+# Launch an instance of executable task type 1 :D
+new_task_instance = client.executable_task_instances.create(
+    name="saltant-py test",
+    arguments={
+        "tag_name": None,
+        "output_dir": "/shahlab/archive/single_cell_indexing/NextSeq/fastq/160705_NS500668_0105_AHGTTWBGXY",
+        "flowcell_id": "AHGTTWBGXY",
+        "storage_name": "shahlab",
+        "storage_directory": "/shahlab/archive"
+    },
+    task_queue_id=1,
+    task_type_id=1,
+)
+
+# Wait until task instance completes
+while True:
+    # Wait a bit
+    time.sleep(3)
+
+    # Get job's status
+    status = client.executable_task_instances.get(
+        uuid=new_task_instance.uuid).state
+
+    if status == SUCCESSFUL:
+        print("yay!")
+        break
+    elif status == FAILED:
+        print("noo!")
+        break
 ```
