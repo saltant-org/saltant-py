@@ -5,48 +5,54 @@
 
 import os
 import requests
-from saltant.constants import DEFAULT_TIMEOUT_SECONDS
-from saltant.exceptions import BadEnvironmentError
+from saltant.constants import (
+    DEFAULT_TIMEOUT_SECONDS,
+    HTTP_200_OK,
+)
+from saltant.exceptions import (
+    AuthenticationError,
+    BadEnvironmentError,
+)
 
 
 class Client:
     """API client for communicating with a saltant server.
 
-    For authentication you need to provide either a username and
-    password, or an authentication token. If all three variables are
-    provided, the authentication token is used and the username and
-    password are ignored.
-
     Example:
 
         >>> import saltant
         >>> client = saltant.Client(
-        ...     hostname='https://shahlabjobs.ca',
+        ...     base_api_url='https://shahlabjobs.ca/api/',
         ...     auth_token='p0gch4mp101fy451do9uod1s1x9i4a')
 
     Attributes:
-        hostname (str): The URL of the saltant API.
+        base_api_url (str): The URL of the saltant API.
     """
     def __init__(
             self,
-            hostname,
-            username=None,
-            password=None,
-            auth_token=None,
+            base_api_url,
+            auth_token,
             default_timeout=DEFAULT_TIMEOUT_SECONDS):
         """Initialize the saltant API client.
 
         Args:
-            hostname (str): The URL of the saltant API.
-            username (str): The registered user's name.
-            password (str): The registered user's password.
+            base_api_url (str): The URL of the saltant API.
             auth_token (str): The registered user's authentication token.
             default_timeout (int, optional): The maximum number
                 of seconds to wait for a request to complete. Defaults
                 to 90 seconds.
         """
         # TODO(mwiens91): use the timeout
-        self.hostname = hostname
+        # The base URL of the saltant API
+        self.base_api_url = base_api_url
+
+        # Start a requests session
+        self.session = requests.Session()
+        self.session.headers.update(
+            {'Authorization': 'Token ' + auth_token})
+
+        # Test that we're authorized
+        self.test_authentication()
 
     @classmethod
     def from_env(cls, default_timeout=DEFAULT_TIMEOUT_SECONDS):
@@ -57,26 +63,14 @@ class Client:
 
         The environment variables looked for are the following:
 
-        .. envvar:: SALTANT_HOST
+        .. envvar:: SALTANT_API_URL
 
-            The URL to the saltant host.
-
-        .. envvar:: SALTANT_USERNAME
-
-            The registered saltant user's name.
-
-        .. envvar:: SALTANT_PASSWORD
-
-            The registered saltant user's password.
+            The URL of the saltant API. For example,
+            https://shahlabjobs.ca/api/
 
         .. envvar:: SALTANT_AUTH_TOKEN
 
             The registered saltant user's authentication token.
-
-        For authentication you need to provide either a username and
-        password, or an authentication token. If all three variables are
-        provided, the authentication token is used and the username and
-        password are ignored.
 
         Example:
 
@@ -97,35 +91,39 @@ class Client:
         """
         # Get variables from environment
         try:
-            hostname = os.environ['SALTANT_HOSTNAME']
+            base_api_url = os.environ['SALTANT_API_URL']
         except KeyError:
-            raise BadEnvironmentError("SALTANT_HOSTNAME not defined!")
+            raise BadEnvironmentError("SALTANT_API_URL not defined!")
 
         try:
             # Try to get an auth token
             auth_token = os.environ['SALTANT_AUTH_TOKEN']
-
-            # Return the configured client
-            return cls(
-                hostname=hostname,
-                auth_token=auth_token,
-                default_timeout=default_timeout,)
         except KeyError:
-            pass
-
-        # No auth token available. Try getting username and password.
-        username = os.environ.get('SALTANT_USERNAME')
-        password = os.environ.get('SALTANT_PASSWORD')
-
-        if not username or not password:
-            raise BadEnvironmentError("Authentication env vars not defined!")
+            raise BadEnvironmentError("SALTANT_AUTH_TOKEN not defined!")
 
         # Return the configured client
         return cls(
-            hostname=hostname,
-            username=username,
-            password=password,
+            base_api_url=base_api_url,
+            auth_token=auth_token,
             default_timeout=default_timeout,)
+
+    def test_authentication(self):
+        """Test that the client is authorized.
+
+        This currently assumes that read-only operations require
+        authentication, which is the intended authentication protocol
+        for saltant servers.
+
+        Raises:
+            :py:class:`saltant.exceptions.AuthenticationError`: The
+                authentication provided was invalid.
+        """
+        response = self.session.get(self.base_api_url + 'users/')
+
+        try:
+            assert response.status_code == HTTP_200_OK
+        except AssertionError:
+            raise AuthenticationError('Authentication invalid!')
 
 
 # Allow convenient import access to environment-configured client
