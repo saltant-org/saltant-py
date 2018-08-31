@@ -65,7 +65,7 @@ class ExecutableTaskInstance(BaseTaskInstance):
     """Model for an executable task instance.
 
     Attributes:
-:       name (str): The name of the task instance.
+        name (str): The name of the task instance.
         uuid (str): The UUID of the task instance.
         state (str): The state of the task instance.
         user (str): The username of the user who started the task.

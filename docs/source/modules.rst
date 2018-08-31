@@ -1,5 +1,5 @@
-sdk-salt
-========
+saltant
+=======
 
 .. toctree::
    :maxdepth: 4
