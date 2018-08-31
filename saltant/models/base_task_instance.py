@@ -7,7 +7,7 @@ from .resource import Model
 
 
 class BaseTaskInstance(Model):
-    """Base class for a task instance.
+    """Base model for a task instance.
 
     Attributes:
         _client (:py:class:`saltant.client.Client`): An authenticated
@@ -28,20 +28,19 @@ class BaseTaskInstance(Model):
     def __init__(
             self,
             _client,
-            name,
             uuid,
             user,
             task_queue,
             task_type,
             datetime_created,
             datetime_finished,
-            arguments,):
+            arguments,
+            name="",):
         """Initialize a task instance.
 
         Args:
             _client (:py:class:`saltant.client.Client`): An
                 authenticated saltant client.
-            name (str): The name of the task instance.
             uuid (str): The UUID of the task instance.
             state (str): The state of the task instance.
             user (str): The username of the user who started the task.
@@ -54,6 +53,8 @@ class BaseTaskInstance(Model):
                 when the task instance finished.
             arguments (dict): The arguments the task instance was run
                 with.
+            name (str, optional): The name of the task instance.
+                Defaults to an empty string.
         """
         # Call the base model constructor
         super(BaseTaskInstance, self).__init__(_client)
@@ -66,3 +67,7 @@ class BaseTaskInstance(Model):
         self.datetime_created = datetime_created
         self.datetime_finished = datetime_finished
         self.arguments = arguments
+
+    def __str__(self):
+        """String representation of the task instance."""
+        return self.uuid
