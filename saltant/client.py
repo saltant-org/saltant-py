@@ -16,6 +16,9 @@ from saltant.exceptions import (
     AuthenticationError,
     BadEnvironmentError,
 )
+from saltant.models import (
+    ExecutableTaskInstanceManager,
+)
 
 
 class Client:
@@ -58,6 +61,10 @@ class Client:
 
         # Test that we're authorized
         self.test_authentication()
+
+        # Add in model managers
+        self.executable_task_instances = (
+            ExecutableTaskInstanceManager(_client=self))
 
     def test_authentication(self):
         """Test that the client is authorized.

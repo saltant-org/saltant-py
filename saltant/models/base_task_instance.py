@@ -3,15 +3,23 @@
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-from .resource import Model
+from .resource import Model, ModelManager
+
+
+class BaseTaskInstanceManager(ModelManager):
+    """Base manager for task instances.
+
+    Attributes:
+        _client (:py:class:`saltant.client.Client`): An authenticated
+            saltant client.
+    """
+    pass
 
 
 class BaseTaskInstance(Model):
     """Base model for a task instance.
 
     Attributes:
-        _client (:py:class:`saltant.client.Client`): An authenticated
-            saltant client.
         name (str): The name of the task instance.
         uuid (str): The UUID of the task instance.
         state (str): The state of the task instance.
@@ -27,8 +35,8 @@ class BaseTaskInstance(Model):
     """
     def __init__(
             self,
-            _client,
             uuid,
+            state,
             user,
             task_queue,
             task_type,
@@ -39,8 +47,6 @@ class BaseTaskInstance(Model):
         """Initialize a task instance.
 
         Args:
-            _client (:py:class:`saltant.client.Client`): An
-                authenticated saltant client.
             uuid (str): The UUID of the task instance.
             state (str): The state of the task instance.
             user (str): The username of the user who started the task.
@@ -56,11 +62,9 @@ class BaseTaskInstance(Model):
             name (str, optional): The name of the task instance.
                 Defaults to an empty string.
         """
-        # Call the base model constructor
-        super(BaseTaskInstance, self).__init__(_client)
-
         self.name = name
         self.uuid = uuid
+        self.state = state
         self.user = user
         self.task_queue = task_queue
         self.task_type = task_type
