@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.com/mwiens91/saltant-py.svg?branch=master)](https://travis-ci.com/mwiens91/saltant-py)
+[![Documentation Status](https://readthedocs.org/projects/saltant-py/badge/?version=latest)](https://saltant-py.readthedocs.io/en/latest/?badge=latest)
 
 # saltant SDK for Python
 
