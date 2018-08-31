@@ -3,6 +3,9 @@
 # TODO(mwiens91): add support for JWT auth tokens
 # TODO(mwiens91): specify what happens when default timeout is exhausted
 
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
 import os
 import requests
 from saltant.constants import (
