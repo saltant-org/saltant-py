@@ -12,6 +12,8 @@ class BaseTaskInstanceManager(ModelManager):
     Attributes:
         _client (:py:class:`saltant.client.Client`): An authenticated
             saltant client.
+        list_url (str): The URL to list task instances.
+        detail_url (str): The URL format to get specific task instances.
     """
     pass
 
