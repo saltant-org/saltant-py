@@ -15,7 +15,7 @@ This attempts to follow the coding paradigms of
 ```python
 from __future__ import print_function
 import time
-from saltant import Client
+from saltant.client import Client
 from saltant.constants import (
     SUCCESSFUL,
     FAILED,

@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 from saltant.version import NAME, DESCRIPTION, VERSION
 
 
@@ -28,9 +28,10 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
     ],
-    packages=['saltant'],
-    python_requires='==2.7, >=3.5',
+    packages=find_packages(),
+    python_requires='>=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*',
     install_requires=[
         'requests',
+        'python-dateutil',
     ],
 )

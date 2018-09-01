@@ -16,8 +16,10 @@ from saltant.exceptions import (
     AuthenticationError,
     BadEnvironmentError,
 )
-from saltant.models import (
+from saltant.models.container_task_instance import (
     ContainerTaskInstanceManager,
+)
+from saltant.models.executable_task_instance import (
     ExecutableTaskInstanceManager,
 )
 
