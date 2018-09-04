@@ -1,11 +1,11 @@
 """Contains the saltant API client."""
 
 # TODO(mwiens91): add support for JWT auth tokens
-# TODO(mwiens91): specify what happens when default timeout is exhausted
 
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
+import functools
 import os
 import requests
 from saltant.constants import (
@@ -53,7 +53,6 @@ class Client:
                 of seconds to wait for a request to complete. Defaults
                 to 90 seconds.
         """
-        # TODO(mwiens91): use the timeout
         # The base URL of the saltant API
         self.base_api_url = base_api_url
 
@@ -64,6 +63,11 @@ class Client:
 
         # Test that we're authorized
         self.test_authentication()
+
+        # Secord the default timeout we want
+        self.session.request = functools.partial(
+            self.session.request,
+            timeout=default_timeout)
 
         # Add in model managers
         self.container_task_instances = (
