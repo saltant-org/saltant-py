@@ -106,6 +106,7 @@ class BaseTaskInstanceManager(ModelManager):
 
         # Validate that the request was successful
         self.validate_request_success(
+            response_text=reponse.text,
             request_url=request_url,
             status_code=response.status_code,
             expected_status_code=HTTP_200_OK,)
@@ -151,6 +152,7 @@ class BaseTaskInstanceManager(ModelManager):
 
         # Validate that the request was successful
         self.validate_request_success(
+            response_text=response.text,
             request_url=request_url,
             status_code=response.status_code,
             expected_status_code=HTTP_201_CREATED,)
