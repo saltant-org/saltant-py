@@ -43,7 +43,8 @@ class Client:
             self,
             base_api_url,
             auth_token,
-            default_timeout=DEFAULT_TIMEOUT_SECONDS):
+            default_timeout=DEFAULT_TIMEOUT_SECONDS,
+            test_if_authenticated=True):
         """Initialize the saltant API client.
 
         Args:
@@ -52,6 +53,11 @@ class Client:
             default_timeout (int, optional): The maximum number
                 of seconds to wait for a request to complete. Defaults
                 to 90 seconds.
+            test_if_authenticated (bool, optional): A flag signalling
+                whether to try making a read-only authenticated request
+                when initializing the client. This is useful for
+                ensuring a working connection and correct authentication
+                details as soon as possible. Defaults to True.
         """
         # The base URL of the saltant API
         self.base_api_url = base_api_url
@@ -62,9 +68,10 @@ class Client:
             {'Authorization': 'Token ' + auth_token})
 
         # Test that we're authorized
-        self.test_authentication()
+        if test_if_authenticated:
+            self.test_authentication()
 
-        # Secord the default timeout we want
+        # Record the default timeout we want
         self.session.request = functools.partial(
             self.session.request,
             timeout=default_timeout)
