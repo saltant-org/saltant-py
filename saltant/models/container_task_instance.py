@@ -41,5 +41,5 @@ class ContainerTaskInstanceManager(BaseTaskInstanceManager):
             the task instance being used.
     """
     list_url = 'containertaskinstances/'
-    detail_url = 'containertaskinstances/{uuid}/'
+    detail_url = 'containertaskinstances/{id}/'
     model = ContainerTaskInstance

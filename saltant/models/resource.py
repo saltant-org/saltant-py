@@ -4,7 +4,9 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from saltant.exceptions import BadHttpRequestError
-
+from saltant.constants import (
+    HTTP_200_OK,
+)
 
 class Model(object):
     """Base class for representing a model."""
@@ -37,13 +39,102 @@ class ModelManager(object):
         """
         self._client = _client
 
-    def list(self):
-        """List instances of models."""
-        raise NotImplementedError
+    def list(self, query_filters=None):
+        """List model instances.
 
-    def get(self):
-        """Get a specific instance of a model."""
-        raise NotImplementedError
+        Currently this gets *everything* and iterates through all
+        possible pages in the API. This may be unsuitable for production
+        environments with huge databases, so finer grained page support
+        should likely be added at some point.
+
+        Args:
+            query_filters (dict, optional): API query filters to apply
+                to the request.  For example,
+
+                {'name__startswith': 'azure',
+                 'user__in': [1, 2, 3, 4],}
+
+        Returns:
+            list: A list of :class:`Model` instances matching the query
+                parameters
+        """
+        # Add in the page and page_size parameters to the filter, such
+        # that our request gets *all* objects in the list. However,
+        # don't do this if the user has explicitly included these
+        # parameters in the filter.
+        if not query_filters:
+            query_filters = {}
+
+        if 'page' not in query_filters:
+            query_filters['page'] = 1
+
+        if 'page_size' not in query_filters:
+            # The below "magic number" is the 2^63 - 1, which is the
+            # largest number you can hold in a 64 bit integer.
+            query_filters['page_size'] = 9223372036854775807
+
+        # Form the request URL - first add in the query filters
+        query_filter_sub_url = ''
+
+        for idx, filter_param in enumerate(query_filters):
+            # Prepend '?' or '&'
+            if idx == 0:
+                query_filter_sub_url += '?'
+            else:
+                query_filter_sub_url += '&'
+
+            # Add in the query filter
+            query_filter_sub_url += '{param}={val}'.format(
+                param=filter_param,
+                val=query_filters[filter_param],
+            )
+
+        # Stitch together all sub-urls
+        request_url = (
+            self._client.base_api_url
+            + self.list_url
+            + query_filter_sub_url)
+
+        # Make the request
+        response = self._client.session.get(request_url)
+
+        # Validate that the request was successful
+        self.validate_request_success(
+            response_text=response.text,
+            request_url=request_url,
+            status_code=response.status_code,
+            expected_status_code=HTTP_200_OK,)
+
+        # Return a list of model instances
+        return self.response_data_to_model_instances_list(response.json())
+
+    def get(self, id_):
+        """Get the model instance with a given id.
+
+        Args:
+            id_ (str): The primary identifier (e.g., pk or UUID) for the
+                task instance to get.
+
+        Returns:
+            :class:`Model`: A model instance model instance representing
+                the model instance requested.
+        """
+        # Get the object
+        request_url = (
+            self._client.base_api_url
+            + self.detail_url.format(id=id_))
+
+        response = self._client.session.get(request_url)
+
+        # Validate that the request was successful
+        self.validate_request_success(
+            response_text=response.text,
+            request_url=request_url,
+            status_code=response.status_code,
+            expected_status_code=HTTP_200_OK,)
+
+        # Return a model instance
+        return self.response_data_to_model_instance(response.json())
 
     def create(self):
         """Create an instance of a model."""
@@ -51,12 +142,25 @@ class ModelManager(object):
 
     @classmethod
     def response_data_to_model_instance(cls, response_data):
-        """Convert response data to a model.
+        """Convert get response data to a model.
 
         Args:
             response_data (dict): The data from the request's response.
         """
         raise NotImplementedError
+
+    @classmethod
+    def response_data_to_model_instances_list(cls, response_data):
+        """Convert list response data to a list of models.
+
+        Args:
+            response_data (dict): The data from the request's response.
+
+        Returns:
+            list: A list of :class:`Model`s.
+        """
+        return [cls.response_data_to_model_instance(subdata)
+                for subdata in response_data['results']]
 
     @staticmethod
     def validate_request_success(

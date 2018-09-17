@@ -41,5 +41,5 @@ class ExecutableTaskInstanceManager(BaseTaskInstanceManager):
             the task instance being used.
     """
     list_url = 'executabletaskinstances/'
-    detail_url = 'executabletaskinstances/{uuid}/'
+    detail_url = 'executabletaskinstances/{id}/'
     model = ExecutableTaskInstance
