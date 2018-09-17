@@ -85,6 +85,22 @@ class BaseTaskInstanceManager(ModelManager):
     """
     model = BaseTaskInstance
 
+    def get(self, uuid):
+        """Get the task instance with given UUID.
+
+        Args:
+            uuid (str): The UUID of the task instance to get.
+
+        Returns:
+            :obj:`saltant.models.base_task_instance.BaseTaskInstance`:
+                A task instance model instance representing the task
+                instance requested.
+        """
+        # Basically identical to parent get method, except re-name id_
+        # to uuid
+        return super(BaseTaskInstanceManager, self).get(id_=uuid)
+
+
     def create(self,
                task_type_id,
                task_queue_id,
