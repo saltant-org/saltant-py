@@ -39,7 +39,7 @@ class ModelManager(object):
         """
         self._client = _client
 
-    def list(self, query_filters=None):
+    def list(self, filters=None):
         """List model instances.
 
         Currently this gets *everything* and iterates through all
@@ -48,8 +48,8 @@ class ModelManager(object):
         should likely be added at some point.
 
         Args:
-            query_filters (dict, optional): API query filters to apply
-                to the request.  For example,
+            filters (dict, optional): API query filters to apply to the
+                request. For example,
 
                 {'name__startswith': 'azure',
                  'user__in': [1, 2, 3, 4],}
@@ -62,21 +62,21 @@ class ModelManager(object):
         # that our request gets *all* objects in the list. However,
         # don't do this if the user has explicitly included these
         # parameters in the filter.
-        if not query_filters:
-            query_filters = {}
+        if not filters:
+            filters = {}
 
-        if 'page' not in query_filters:
-            query_filters['page'] = 1
+        if 'page' not in filters:
+            filters['page'] = 1
 
-        if 'page_size' not in query_filters:
-            # The below "magic number" is the 2^63 - 1, which is the
-            # largest number you can hold in a 64 bit integer.
-            query_filters['page_size'] = 9223372036854775807
+        if 'page_size' not in filters:
+            # The below "magic number" is 2^63 - 1, which is the largest
+            # number you can hold in a 64 bit integer
+            filters['page_size'] = 9223372036854775807
 
         # Form the request URL - first add in the query filters
         query_filter_sub_url = ''
 
-        for idx, filter_param in enumerate(query_filters):
+        for idx, filter_param in enumerate(filters):
             # Prepend '?' or '&'
             if idx == 0:
                 query_filter_sub_url += '?'
@@ -86,7 +86,7 @@ class ModelManager(object):
             # Add in the query filter
             query_filter_sub_url += '{param}={val}'.format(
                 param=filter_param,
-                val=query_filters[filter_param],
+                val=filters[filter_param],
             )
 
         # Stitch together all sub-urls
