@@ -30,7 +30,7 @@ class BaseTaskType(Model):
     """
     def __init__(
             self,
-            id_,
+            id,
             name,
             description,
             user,
@@ -42,7 +42,7 @@ class BaseTaskType(Model):
         """Initialize a task type.
 
         Args:
-            id_ (int): The ID of the task type.
+            id (int): The ID of the task type.
             name (str): The name of the task type.
             description (str): The description of the task type.
             user (str): The user associated with the task type.
@@ -55,7 +55,7 @@ class BaseTaskType(Model):
             required_arguments_default_values (dict): Default values for
                 the tasks required arguments.
         """
-        self.id = id_
+        self.id = id
         self.name = name
         self.description = description
         self.user = user
@@ -84,34 +84,34 @@ class BaseTaskTypeManager(ModelManager):
     """
     model = BaseTaskType
 
-    def get(self, id_=None, task_name=None):
+    def get(self, id=None, name=None):
         """Get a task type.
 
         Either the id xor the name of the task type must be specified.
 
         Args:
-            id_ (int, optional): The id of the task type to get.
-            task_name (str, optional): The name of the task type to get.
+            id (int, optional): The id of the task type to get.
+            name (str, optional): The name of the task type to get.
 
         Returns:
             :class:`BaseTaskType`: A task type model instance
                 representing the task type requested.
 
         Raises:
-            ValueError: Neither id_ nor task_name were set *or* both id_
-                and task_name were set.
+            ValueError: Neither id nor name were set *or* both id and
+                name were set.
         """
         # Validate arguments - use an xor
-        if (id_ is None) ^ (task_name is None):
+        if (id is None) ^ (name is None):
             raise ValueError(
-                "Either id_ or task_name must be set (but not both!)")
+                "Either id or name must be set (but not both!)")
 
         # If it's just ID provided, call the parent function
-        if id_ is not None:
-            return super(BaseTaskTypeManager, self).get(id_=id_)
+        if id is not None:
+            return super(BaseTaskTypeManager, self).get(id=id)
 
         # Try getting the task type by name
-        return self.list(filters={"name": task_name})[0]
+        return self.list(filters={"name": name})[0]
 
     def create(
             self,

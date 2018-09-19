@@ -96,9 +96,9 @@ class BaseTaskInstanceManager(ModelManager):
                 A task instance model instance representing the task
                 instance requested.
         """
-        # Basically identical to parent get method, except re-name id_
+        # Basically identical to parent get method, except re-name id
         # to uuid
-        return super(BaseTaskInstanceManager, self).get(id_=uuid)
+        return super(BaseTaskInstanceManager, self).get(id=uuid)
 
 
     def create(self,

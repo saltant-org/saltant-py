@@ -110,11 +110,11 @@ class ModelManager(object):
         # Return a list of model instances
         return self.response_data_to_model_instances_list(response.json())
 
-    def get(self, id_):
+    def get(self, id):
         """Get the model instance with a given id.
 
         Args:
-            id_ (str): The primary identifier (e.g., pk or UUID) for the
+            id (str): The primary identifier (e.g., pk or UUID) for the
                 task instance to get.
 
         Returns:
@@ -124,7 +124,7 @@ class ModelManager(object):
         # Get the object
         request_url = (
             self._client.base_api_url
-            + self.detail_url.format(id=id_))
+            + self.detail_url.format(id=id))
 
         response = self._client.session.get(request_url)
 
