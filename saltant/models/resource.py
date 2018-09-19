@@ -159,7 +159,7 @@ class ModelManager(object):
             response_data (dict): The data from the request's response.
 
         Returns:
-            list: A list of :class:`Model`s.
+            list: A list of :class:`Model` instances.
         """
         return [cls.response_data_to_model_instance(subdata)
                 for subdata in response_data['results']]
