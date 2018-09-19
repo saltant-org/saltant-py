@@ -70,7 +70,9 @@ class ModelManager(object):
 
         if 'page_size' not in filters:
             # The below "magic number" is 2^63 - 1, which is the largest
-            # number you can hold in a 64 bit integer
+            # number you can hold in a 64 bit integer. The main point
+            # here is that we want to get everything in one page (unless
+            # otherwise specified, of course).
             filters['page_size'] = 9223372036854775807
 
         # Form the request URL - first add in the query filters
