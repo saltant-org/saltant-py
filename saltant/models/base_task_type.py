@@ -84,10 +84,34 @@ class BaseTaskTypeManager(ModelManager):
     """
     model = BaseTaskType
 
-    # TODO(mwiens91): override parent get function such that you can get
-    # a task type by (taskname, username) two-tuple
-    # def get (...):
-    #   ...
+    def get(self, id_=None, task_name=None):
+        """Get a task type.
+
+        Either the id xor the name of the task type must be specified.
+
+        Args:
+            id_ (int, optional): The id of the task type to get.
+            task_name (str, optional): The name of the task type to get.
+
+        Returns:
+            :class:`BaseTaskType`: A task type model instance
+                representing the task type requested.
+
+        Raises:
+            ValueError: Neither id_ nor task_name were set *or* both id_
+                and task_name were set.
+        """
+        # Validate arguments - use an xor
+        if (id_ is None) ^ (task_name is None):
+            raise ValueError(
+                "Either id_ or task_name must be set (but not both!)")
+
+        # If it's just ID provided, call the parent function
+        if id_ is not None:
+            return super(BaseTaskTypeManager, self).get(id_=id_)
+
+        # Try getting the task type by name
+        return self.list(filters={"name": task_name})[0]
 
     def create(
             self,
