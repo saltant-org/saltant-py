@@ -124,7 +124,7 @@ class BaseTaskInstanceManager(ModelManager):
                 instance just created.
         """
         # Make arguments an empty dictionary if None
-        if not arguments:
+        if arguments is None:
             arguments = {}
 
         # Create the object
