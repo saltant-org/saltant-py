@@ -118,8 +118,8 @@ class ModelManager(object):
                 task instance to get.
 
         Returns:
-            :class:`Model`: A model instance model instance representing
-                the model instance requested.
+            :class:`Model`: A model instance representing the resource
+                requested.
         """
         # Get the object
         request_url = (
