@@ -1,4 +1,4 @@
-"""Container task instance model and manager."""
+"""Executable task instance model and manager."""
 
 from __future__ import absolute_import
 from __future__ import division
