@@ -19,6 +19,9 @@ from saltant.exceptions import (
 from saltant.models.container_task_instance import (
     ContainerTaskInstanceManager,
 )
+from saltant.models.container_task_type import (
+    ContainerTaskTypeManager,
+)
 from saltant.models.executable_task_instance import (
     ExecutableTaskInstanceManager,
 )
@@ -80,12 +83,14 @@ class Client:
             timeout=default_timeout)
 
         # Add in model managers
-        self.executable_task_types = (
-            ExecutableTaskTypeManager(_client=self))
         self.container_task_instances = (
             ContainerTaskInstanceManager(_client=self))
+        self.container_task_types = (
+            ContainerTaskTypeManager(_client=self))
         self.executable_task_instances = (
             ExecutableTaskInstanceManager(_client=self))
+        self.executable_task_types = (
+            ExecutableTaskTypeManager(_client=self))
 
     def test_authentication(self):
         """Test that the client is authorized.
