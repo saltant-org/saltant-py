@@ -148,8 +148,14 @@ class ModelManager(object):
 
         Args:
             response_data (dict): The data from the request's response.
+
+        Returns:
+            :obj:`saltant.models.resource.Model`:
+                A model instance representing the resource from the
+                response data.
         """
-        raise NotImplementedError
+        # Instantiate a model
+        return cls.model(**response_data)
 
     @classmethod
     def response_data_to_model_instances_list(cls, response_data):

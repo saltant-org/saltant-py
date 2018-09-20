@@ -168,4 +168,6 @@ class BaseTaskInstanceManager(ModelManager):
                 dateutil.parser.parse(response_data['datetime_finished']))
 
         # Instantiate a model for the task instance
-        return cls.model(**response_data)
+        return super(
+            BaseTaskInstanceManager,
+            cls).response_data_to_model_instance(**response_data)
