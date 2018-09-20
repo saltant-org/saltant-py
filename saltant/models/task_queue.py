@@ -96,7 +96,6 @@ class TaskQueueManager(ModelManager):
         # Try getting the task queue by name
         return self.list(filters={"name": name})[0]
 
-
     def create(self,
                name,
                description="",
