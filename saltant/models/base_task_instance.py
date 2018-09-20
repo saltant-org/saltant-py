@@ -100,7 +100,6 @@ class BaseTaskInstanceManager(ModelManager):
         # to uuid
         return super(BaseTaskInstanceManager, self).get(id=uuid)
 
-
     def create(self,
                task_type_id,
                task_queue_id,
@@ -170,4 +169,4 @@ class BaseTaskInstanceManager(ModelManager):
         # Instantiate a model for the task instance
         return super(
             BaseTaskInstanceManager,
-            cls).response_data_to_model_instance(**response_data)
+            cls).response_data_to_model_instance(response_data)

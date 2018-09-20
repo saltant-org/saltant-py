@@ -192,4 +192,4 @@ class BaseTaskTypeManager(ModelManager):
         # Instantiate a model for the task instance
         return super(
             BaseTaskTypeManager,
-            cls).response_data_to_model_instance(**response_data)
+            cls).response_data_to_model_instance(response_data)
