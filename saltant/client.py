@@ -28,6 +28,9 @@ from saltant.models.executable_task_instance import (
 from saltant.models.executable_task_type import (
     ExecutableTaskTypeManager,
 )
+from saltant.models.task_queue import (
+    TaskQueueManager,
+)
 
 
 class Client:
@@ -85,12 +88,11 @@ class Client:
         # Add in model managers
         self.container_task_instances = (
             ContainerTaskInstanceManager(_client=self))
-        self.container_task_types = (
-            ContainerTaskTypeManager(_client=self))
+        self.container_task_types = ContainerTaskTypeManager(_client=self)
         self.executable_task_instances = (
             ExecutableTaskInstanceManager(_client=self))
-        self.executable_task_types = (
-            ExecutableTaskTypeManager(_client=self))
+        self.executable_task_types = ExecutableTaskTypeManager(_client=self)
+        self.task_queues = TaskQueueManager(_client=self)
 
     def test_authentication(self):
         """Test that the client is authorized.
