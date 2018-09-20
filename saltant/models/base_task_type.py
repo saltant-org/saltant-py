@@ -102,7 +102,7 @@ class BaseTaskTypeManager(ModelManager):
                 name were set.
         """
         # Validate arguments - use an xor
-        if (id is None) ^ (name is None):
+        if not((id is None) ^ (name is None)):
             raise ValueError(
                 "Either id or name must be set (but not both!)")
 
