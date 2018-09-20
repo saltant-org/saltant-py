@@ -58,14 +58,44 @@ class TaskQueueManager(ModelManager):
     Attributes:
         _client (:py:class:`saltant.client.Client`): An authenticated
             saltant client.
-        list_url (str): The URL to list task instances.
-        detail_url (str): The URL format to get specific task instances.
-        model (:class:`TaskQueue`): The model of the task instance being
+        list_url (str): The URL to list task queues.
+        detail_url (str): The URL format to get specific task queues.
+        model (:class:`TaskQueue`): The model of the task queue being
             used.
     """
     list_url = 'taskqueues/'
     detail_url = 'taskqueues/{id}/'
     model = TaskQueue
+
+    def get(self, id=None, name=None):
+        """Get a task queue.
+
+        Either the id xor the name of the task type must be specified.
+
+        Args:
+            id (int, optional): The id of the task type to get.
+            name (str, optional): The name of the task type to get.
+
+        Returns:
+            :class:`TaskQueue`: A task queue model instance representing
+                the task queue requested.
+
+        Raises:
+            ValueError: Neither id nor name were set *or* both id and
+                name were set.
+        """
+        # Validate arguments - use an xor
+        if (id is None) ^ (name is None):
+            raise ValueError(
+                "Either id or name must be set (but not both!)")
+
+        # If it's just ID provided, call the parent function
+        if id is not None:
+            return super(TaskQueueManager, self).get(id=id)
+
+        # Try getting the task queue by name
+        return self.list(filters={"name": name})[0]
+
 
     def create(self,
                name,
