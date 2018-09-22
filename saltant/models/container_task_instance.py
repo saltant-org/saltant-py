@@ -37,9 +37,14 @@ class ContainerTaskInstanceManager(BaseTaskInstanceManager):
             saltant client.
         list_url (str): The URL to list task instances.
         detail_url (str): The URL format to get specific task instances.
+        clone_url (str): The URL format to clone a task instance.
+        terminate_url (str): The URL format to terminate a task
+            instance.
         model (:class:`ContainerTaskInstance`): The model of the task
             instance being used.
     """
     list_url = 'containertaskinstances/'
     detail_url = 'containertaskinstances/{id}/'
+    clone_url = 'containertaskinstances/{id}/clone/'
+    terminate_url = 'containertaskinstances/{id}/terminate/'
     model = ContainerTaskInstance

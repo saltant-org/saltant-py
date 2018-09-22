@@ -80,9 +80,14 @@ class BaseTaskInstanceManager(ModelManager):
             saltant client.
         list_url (str): The URL to list task instances.
         detail_url (str): The URL format to get specific task instances.
+        clone_url (str): The URL format to clone a task instance.
+        terminate_url (str): The URL format to terminate a task
+            instance.
         model (:py:class:`saltant.models.resource.Model`): The model of
             the task instance being used.
     """
+    clone_url = "NotImplemented"
+    terminate_url = "NotImplemented"
     model = BaseTaskInstance
 
     def get(self, uuid):

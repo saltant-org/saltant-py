@@ -37,9 +37,14 @@ class ExecutableTaskInstanceManager(BaseTaskInstanceManager):
             saltant client.
         list_url (str): The URL to list task instances.
         detail_url (str): The URL format to get specific task instances.
+        clone_url (str): The URL format to clone a task instance.
+        terminate_url (str): The URL format to terminate a task
+            instance.
         model (:class:`ExecutableTaskInstance`): The model of the task
             instance being used.
     """
     list_url = 'executabletaskinstances/'
     detail_url = 'executabletaskinstances/{id}/'
+    clone_url = 'executabletaskinstances/{id}/clone/'
+    terminate_url = 'executabletaskinstances/{id}/terminate/'
     model = ExecutableTaskInstance
