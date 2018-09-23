@@ -145,8 +145,7 @@ class ModelManager(object):
         """Create an instance of a model."""
         raise NotImplementedError
 
-    @classmethod
-    def response_data_to_model_instance(cls, response_data):
+    def response_data_to_model_instance(self, response_data):
         """Convert get response data to a model.
 
         Args:
@@ -158,10 +157,9 @@ class ModelManager(object):
                 response data.
         """
         # Instantiate a model
-        return cls.model(**response_data)
+        return self.model(**response_data)
 
-    @classmethod
-    def response_data_to_model_instances_list(cls, response_data):
+    def response_data_to_model_instances_list(self, response_data):
         """Convert list response data to a list of models.
 
         Args:
@@ -170,7 +168,7 @@ class ModelManager(object):
         Returns:
             list: A list of :class:`Model` instances.
         """
-        return [cls.response_data_to_model_instance(subdata)
+        return [self.response_data_to_model_instance(subdata)
                 for subdata in response_data['results']]
 
     @staticmethod

@@ -173,8 +173,7 @@ class BaseTaskTypeManager(ModelManager):
         # Return a model instance representing the task instance
         return self.response_data_to_model_instance(response.json())
 
-    @classmethod
-    def response_data_to_model_instance(cls, response_data):
+    def response_data_to_model_instance(self, response_data):
         """Convert response data to a task type model.
 
         Args:
@@ -192,4 +191,4 @@ class BaseTaskTypeManager(ModelManager):
         # Instantiate a model for the task instance
         return super(
             BaseTaskTypeManager,
-            cls).response_data_to_model_instance(response_data)
+            self).response_data_to_model_instance(response_data)
