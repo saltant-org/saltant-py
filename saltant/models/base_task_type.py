@@ -121,7 +121,8 @@ class BaseTaskTypeManager(ModelManager):
             description="",
             environment_variables=None,
             required_arguments=None,
-            required_arguments_default_values=None,):
+            required_arguments_default_values=None,
+            extra_data_to_post=None,):
         """Create a task type.
 
         Args:
@@ -134,6 +135,9 @@ class BaseTaskTypeManager(ModelManager):
                 the task type.
             required_arguments_default_values (dict, optional): Default
                 values for the tasks required arguments.
+            extra_data_to_post (dict, optional): Extra key-value pairs
+                to add to the request data. This is useful for
+                subclasses which require extra parameters.
 
         Returns:
             :class:`saltant.models.base_task_instance.BaseTaskType`:
@@ -162,6 +166,10 @@ class BaseTaskTypeManager(ModelManager):
                 json.dumps(required_arguments_default_values),
         }
 
+        # Add in extra data if any was passed in
+        if extra_data_to_post is not None:
+            data_to_post.update(extra_data_to_post)
+
         response = self._client.session.post(request_url, data=data_to_post)
 
         # Validate that the request was successful
@@ -171,7 +179,7 @@ class BaseTaskTypeManager(ModelManager):
             status_code=response.status_code,
             expected_status_code=HTTP_201_CREATED,)
 
-        # Return a model instance representing the task instance
+        # Return a model instance representing the task type
         return self.response_data_to_model_instance(response.json())
 
     def response_data_to_model_instance(self, response_data):
