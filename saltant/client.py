@@ -47,6 +47,18 @@ class Client:
         base_api_url (str): The URL of the saltant API.
         session (:class:`requests.Session`): A session object to make
             requests with.
+        container_task_instances (:py:obj:`saltant.models.container_task_instance.ContainerTaskInstanceManager`):
+            A manager for performing actions related to container task
+            instances.
+        container_task_types (:py:obj:`saltant.models.container_task_type.ContainerTaskTypeManager`):
+            A manager for performing actions related to container task
+            types.
+        executable_task_instances (:py:obj:`saltant.models.executable_task_instance.ExecutableTaskInstanceManager`):
+            A manager for performing actions related to executable task
+            instances.
+        executable_task_types (:py:obj:`saltant.models.executable_task_type.ExecutableTaskTypeManager`):
+            A manager for performing actions related to executable task
+            types.
     """
     def __init__(
             self,
