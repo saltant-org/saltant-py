@@ -17,29 +17,17 @@ Model references
 .. autoclass:: saltant.models.container_task_instance.ContainerTaskInstance
     :members:
 
-    .. automethod:: __init__
-
 .. autoclass:: saltant.models.container_task_type.ContainerTaskType
     :members:
-
-    .. automethod:: __init__
 
 .. autoclass:: saltant.models.executable_task_instance.ExecutableTaskInstance
     :members:
 
-    .. automethod:: __init__
-
 .. autoclass:: saltant.models.executable_task_type.ExecutableTaskType
     :members:
-
-    .. automethod:: __init__
 
 .. autoclass:: saltant.models.task_queue.TaskQueue
     :members:
 
-    .. automethod:: __init__
-
 .. autoclass:: saltant.models.user.User
     :members:
-
-    .. automethod:: __init__
