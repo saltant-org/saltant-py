@@ -135,8 +135,8 @@ class BaseTaskTypeManager(ModelManager):
                 values for the tasks required arguments.
 
         Returns:
-            :obj:`saltant.models.base_task_instance.BaseTaskType`: A
-                task typer model instance representing the task type
+            :obj:`saltant.models.base_task_instance.BaseTaskType`:
+                A task type model instance representing the task type
                 just created.
         """
         # Set None for optional list and dicts to proper datatypes
