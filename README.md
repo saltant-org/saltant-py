@@ -22,17 +22,11 @@ pip install saltant-py
 
 or, from source, after cloning this repository, run
 
-**Python == 2.7**
-
 ```
 python setup.py install
 ```
 
-**Python >= 3.5**
-
-```
-python3 setup.py install
-```
+where `python` is in versions 2.7 or 3.5+.
 
 ## Example
 
