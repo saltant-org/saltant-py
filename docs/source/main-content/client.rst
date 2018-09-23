@@ -30,5 +30,3 @@ Client reference
 .. autoclass:: saltant.client.Client
     :members:
     :undoc-members:
-    :show-inheritance:
-    :noindex:
