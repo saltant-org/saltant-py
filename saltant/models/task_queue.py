@@ -23,7 +23,7 @@ class TaskQueue(Model):
         active (bool): A Booleon signalling whether the queue is active.
         manager (:class:`saltant.models.task_queue.TaskQueueManager`):
             The task queue manager which spawned this task queue. This
-            is used to add an update method to the task queue instance.
+            is used to add a put method to the task queue instance.
     """
     def __init__(self,
                  id,
@@ -46,7 +46,7 @@ class TaskQueue(Model):
                 active.
             manager (:class:`saltant.models.task_queue.TaskQueueManager`):
                 The task queue manager which spawned this task instance.
-                This is used to add an update method to the task queue
+                This is used to add a put method to the task queue
                 instance.
         """
         self.id = id
@@ -61,15 +61,15 @@ class TaskQueue(Model):
         """String representation of the task queue."""
         return self.name
 
-    def update(self):
-        """Updates this task queue.
+    def put(self):
+        """Updates this task queue on the saltant server.
 
         Returns:
             :class:`saltant.models.task_queue.TaskQueue`:
                 A task queue model instance representing the task queue
                 just updated.
         """
-        return self.manager.update(self)
+        return self.manager.put(self)
 
 
 class TaskQueueManager(ModelManager):
@@ -157,8 +157,8 @@ class TaskQueueManager(ModelManager):
         # Return a model instance representing the task instance
         return self.response_data_to_model_instance(response.json())
 
-    def update(self, task_queue):
-        """Updates a task queue.
+    def put(self, task_queue):
+        """Updates a task queue on the saltant server.
 
         Args:
             task_queue (:class:`saltant.models.task_queue.TaskQueue`):

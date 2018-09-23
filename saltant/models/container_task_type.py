@@ -36,7 +36,7 @@ class ContainerTaskType(BaseTaskType):
         container_type (str): The type of the container.
         manager (:class:`saltant.models.container_task_type.ContainerTaskTypeManager`):
             The task type manager which spawned this task type. This is
-            used to add an update method to the task type instance.
+            used to add a put method to the task type instance.
     """
     def __init__(
             self,
@@ -79,8 +79,7 @@ class ContainerTaskType(BaseTaskType):
             container_type (str): The type of the container.
             manager (:class:`saltant.models.container_task_type.ContainerTaskTypeManager`):
                 The task type manager which spawned this task type. This
-                is used to add an update method to the task type
-                instance.
+                is used to add a put method to the task type instance.
         """
         # Call the parent constructor
         super(ContainerTaskType, self).__init__(
@@ -181,8 +180,8 @@ class ContainerTaskTypeManager(BaseTaskTypeManager):
             required_arguments_default_values=required_arguments_default_values,
             extra_data_to_post=extra_data_to_post,)
 
-    def update(self, task_type, extra_data_to_put=None):
-        """Updates a task type.
+    def put(self, task_type, extra_data_to_put=None):
+        """Updates a task type on the saltant server.
 
         Args:
             task_type (:class:`saltant.models.container_task_type.ContainerTaskType`):

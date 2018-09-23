@@ -30,7 +30,7 @@ class BaseTaskType(Model):
             tasks required arguments.
         manager (:class:`saltant.models.base_task_type.BaseTaskTypeManager`):
             The task type manager which spawned this task type. This is
-            used to add an update method to the task type instance.
+            used to add a put method to the task type instance.
     """
     def __init__(
             self,
@@ -61,8 +61,7 @@ class BaseTaskType(Model):
                 the tasks required arguments.
             manager (:class:`saltant.models.base_task_type.BaseTaskTypeManager`):
                 The task type manager which spawned this task type. This
-                is used to add an update method to the task type
-                instance.
+                is used to add a put method to the task type instance.
         """
         self.id = id
         self.name = name
@@ -80,15 +79,15 @@ class BaseTaskType(Model):
         """String representation of the task type."""
         return "%s (%s)" % (self.name, self.user)
 
-    def update(self):
-        """Updates this task type.
+    def put(self):
+        """Updates this task type on the saltant server.
 
         Returns:
             :class:`saltant.models.base_task_type.BaseTaskType`:
                 A task queue model instance representing the task queue
                 just updated.
         """
-        return self.manager.update(self)
+        return self.manager.put(self)
 
 
 class BaseTaskTypeManager(ModelManager):
@@ -202,8 +201,8 @@ class BaseTaskTypeManager(ModelManager):
         # Return a model instance representing the task type
         return self.response_data_to_model_instance(response.json())
 
-    def update(self, task_type, extra_data_to_put=None):
-        """Updates a task type.
+    def put(self, task_type, extra_data_to_put=None):
+        """Updates a task type on the saltant server.
 
         Args:
             task_type (:class:`saltant.models.base_task_type.BaseTaskType`):
