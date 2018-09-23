@@ -5,10 +5,34 @@
 
 # saltant SDK for Python
 
-### NOTE: this project is an active work in progress
+saltant-py is a Python SDK for
+[saltant](https://github.com/mwiens91/saltant). It lets you perform any
+action possible on the saltant API (some much more conveniently) within
+the comforts (hopefully) of Python. As a refresher, you might want to
+look at [saltant's API reference](https://mwiens91.github.io/saltant/)
+to see what actions are possible.
 
-This attempts to follow the coding paradigms of
-[docker-py](https://github.com/docker/docker-py) fairly closely.
+## Installation
+
+Using pip,
+
+```
+pip install saltant-py
+```
+
+or, from source, after cloning this repository, run
+
+**Python == 2.7**
+
+```
+python setup.py install
+```
+
+**Python >= 3.5**
+
+```
+python3 setup.py install
+```
 
 ## Example
 
@@ -66,12 +90,4 @@ while True:
     elif status == FAILED:
         print("noo!")
         break
-```
-
-## Installation
-
-Using pip,
-
-```
-pip install saltant-py
 ```
