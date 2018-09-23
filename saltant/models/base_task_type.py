@@ -75,12 +75,12 @@ class BaseTaskTypeManager(ModelManager):
     """Base manager for task types.
 
     Attributes:
-        _client (:py:class:`saltant.client.Client`): An authenticated
+        _client (:class:`saltant.client.Client`): An authenticated
             saltant client.
         list_url (str): The URL to list task types.
         detail_url (str): The URL format to get specific task types.
-        model (:py:class:`saltant.models.resource.Model`): The model of
-            the task type being used.
+        model (:class:`saltant.models.resource.Model`): The model of the
+            task type being used.
     """
     model = BaseTaskType
 
@@ -94,8 +94,8 @@ class BaseTaskTypeManager(ModelManager):
             name (str, optional): The name of the task type to get.
 
         Returns:
-            :class:`BaseTaskType`: A task type model instance
-                representing the task type requested.
+            :class:`saltant.models.base_task_type.BaseTaskType`: A task
+                type model instance representing the task type requested.
 
         Raises:
             ValueError: Neither id nor name were set *or* both id and
@@ -135,7 +135,7 @@ class BaseTaskTypeManager(ModelManager):
                 values for the tasks required arguments.
 
         Returns:
-            :obj:`saltant.models.base_task_instance.BaseTaskType`:
+            :class:`saltant.models.base_task_instance.BaseTaskType`:
                 A task type model instance representing the task type
                 just created.
         """
@@ -180,9 +180,9 @@ class BaseTaskTypeManager(ModelManager):
             response_data (dict): The data from the request's response.
 
         Returns:
-            :py:obj:`saltant.models.resource.Model`:
-                A model instance representing the task type from the
-                reponse data.
+            :class:`saltant.models.base_task_type.BaseTaskType`: A model
+                instance representing the task type from the reponse
+                data.
         """
         # Coerce datetime strings into datetime objects
         response_data['datetime_created'] = (

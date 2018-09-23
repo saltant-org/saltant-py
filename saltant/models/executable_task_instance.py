@@ -33,15 +33,15 @@ class ExecutableTaskInstanceManager(BaseTaskInstanceManager):
     """Manager for executable task instances.
 
     Attributes:
-        _client (:py:class:`saltant.client.Client`): An authenticated
+        _client (:class:`saltant.client.Client`): An authenticated
             saltant client.
         list_url (str): The URL to list task instances.
         detail_url (str): The URL format to get specific task instances.
         clone_url (str): The URL format to clone a task instance.
         terminate_url (str): The URL format to terminate a task
             instance.
-        model (:class:`ExecutableTaskInstance`): The model of the task
-            instance being used.
+        model (:class:`saltant.models.executable_task_instance.ExecutableTaskInstance`):
+            The model of the task instance being used.
     """
     list_url = 'executabletaskinstances/'
     detail_url = 'executabletaskinstances/{id}/'

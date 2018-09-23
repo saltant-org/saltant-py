@@ -56,12 +56,12 @@ class TaskQueueManager(ModelManager):
     """Manager for task queues.
 
     Attributes:
-        _client (:py:class:`saltant.client.Client`): An authenticated
+        _client (:class:`saltant.client.Client`): An authenticated
             saltant client.
         list_url (str): The URL to list task queues.
         detail_url (str): The URL format to get specific task queues.
-        model (:class:`TaskQueue`): The model of the task queue being
-            used.
+        model (:class:`saltant.models.task_queue.TaskQueue`): The model
+            of the task queue being used.
     """
     list_url = 'taskqueues/'
     detail_url = 'taskqueues/{id}/'
@@ -77,8 +77,8 @@ class TaskQueueManager(ModelManager):
             name (str, optional): The name of the task type to get.
 
         Returns:
-            :class:`TaskQueue`: A task queue model instance representing
-                the task queue requested.
+            :class:`saltant.models.task_queue.TaskQueue`: A task queue
+                model instance representing the task queue requested.
 
         Raises:
             ValueError: Neither id nor name were set *or* both id and
@@ -112,8 +112,8 @@ class TaskQueueManager(ModelManager):
                 queue is active. Default to True.
 
         Returns:
-            :obj:`TaskQueue`: A task queue model instance representing
-                the task queue just created.
+            :class:`saltant.models.task_queue.TaskQueue`: A task queue
+                model instance representing the task queue just created.
         """
         # Create the object
         request_url = self._client.base_api_url + self.list_url

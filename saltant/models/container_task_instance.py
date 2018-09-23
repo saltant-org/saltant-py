@@ -33,15 +33,15 @@ class ContainerTaskInstanceManager(BaseTaskInstanceManager):
     """Manager for container task instances.
 
     Attributes:
-        _client (:py:class:`saltant.client.Client`): An authenticated
+        _client (:class:`saltant.client.Client`): An authenticated
             saltant client.
         list_url (str): The URL to list task instances.
         detail_url (str): The URL format to get specific task instances.
         clone_url (str): The URL format to clone a task instance.
         terminate_url (str): The URL format to terminate a task
             instance.
-        model (:class:`ContainerTaskInstance`): The model of the task
-            instance being used.
+        model (:class:`saltant.models.container_task_instance.ContainerTaskInstance`):
+            The model of the task instance being used.
     """
     list_url = 'containertaskinstances/'
     detail_url = 'containertaskinstances/{id}/'

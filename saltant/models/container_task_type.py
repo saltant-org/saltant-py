@@ -98,12 +98,12 @@ class ContainerTaskTypeManager(BaseTaskTypeManager):
     """Manager for Container task types.
 
     Attributes:
-        _client (:py:class:`saltant.client.Client`): An authenticated
+        _client (:class:`saltant.client.Client`): An authenticated
             saltant client.
         list_url (str): The URL to list task types.
         detail_url (str): The URL format to get specific task types.
-        model (:class:`ExecutableTaskType`): The model of the task
-            instance being used.
+        model (:class:`saltant.models.container_task_type.ContainerTaskType`):
+            The model of the task instance being used.
     """
     list_url = 'containertasktypes/'
     detail_url = 'containertasktypes/{id}/'

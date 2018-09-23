@@ -19,11 +19,11 @@ class ModelManager(object):
     """Base class for a model manager.
 
     Attributes:
-        _client (:py:class:`saltant.client.Client`): An authenticated
+        _client (:class:`saltant.client.Client`): An authenticated
             saltant client.
         list_url (str): The URL to list models.
         detail_url (str): The URL format to get specific models.
-        model (:py:class:`saltant.models.resource.Model`): The model
+        model (:class:`saltant.models.resource.Model`): The model
             being used.
     """
     list_url = "NotImplemented"
@@ -34,7 +34,7 @@ class ModelManager(object):
         """Save the client so we can make API calls in the manager.
 
         Args:
-            _client (:py:class:`saltant.client.Client`): An
+            _client (:class:`saltant.client.Client`): An
                 authenticated saltant client.
         """
         self._client = _client
@@ -62,8 +62,9 @@ class ModelManager(object):
 
         Returns:
             list:
-                A list of :class:`Model` instances matching the query
-                parameters
+                A list of :class:`saltant.models.resource.Model`
+                subclass instances (for example, container task type
+                model instances).
         """
         # Add in the page and page_size parameters to the filter, such
         # that our request gets *all* objects in the list. However,
@@ -125,8 +126,9 @@ class ModelManager(object):
                 task instance to get.
 
         Returns:
-            :class:`Model`: A model instance representing the resource
-                requested.
+            :class:`saltant.models.resource.Model`:
+                A :class:`saltant.models.resource.Model` subclass
+                instance representing the resource requested.
         """
         # Get the object
         request_url = (
@@ -156,9 +158,10 @@ class ModelManager(object):
             response_data (dict): The data from the request's response.
 
         Returns:
-            :obj:`saltant.models.resource.Model`:
-                A model instance representing the resource from the
-                response data.
+            :class:`saltant.models.resource.Model`:
+                A :class:`saltant.models.resource.Model` subclass
+                instance representing the resource given in the
+                request's response data.
         """
         # Instantiate a model
         return self.model(**response_data)
@@ -170,7 +173,8 @@ class ModelManager(object):
             response_data (dict): The data from the request's response.
 
         Returns:
-            list: A list of :class:`Model` instances.
+            list: A list of :class:`saltant.models.resource.Model`
+                subclass instances.
         """
         return [self.response_data_to_model_instance(subdata)
                 for subdata in response_data['results']]
@@ -191,7 +195,7 @@ class ModelManager(object):
                 response.
 
         Raises:
-            :py:class:`saltant.exceptions.BadHttpRequestError`: The HTTP
+            :class:`saltant.exceptions.BadHttpRequestError`: The HTTP
                 request failed.
         """
         try:

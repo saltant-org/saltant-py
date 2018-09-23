@@ -31,11 +31,11 @@ class BaseTaskInstance(Model):
         datetime_finished (:class:`datetime.datetime`): The datetime
             when the task instance finished.
         arguments (dict): The arguments the task instance was run with.
-        manager (:obj:`BaseTaskInstanceManager`): The task instance manager
-            which spawned this task instance. This is used to
-            conveniently add clone, terminate, and wait_until_finished
-            methods to the task instance model itself (such
-            convenience!).
+        manager (:class:`saltant.models.base_task_instance.BaseTaskInstanceManager`):
+            The task instance manager which spawned this task instance.
+            This is used to conveniently add clone, terminate, and
+            wait_until_finished methods to the task instance model
+            itself (such convenience!).
     """
     def __init__(
             self,
@@ -64,8 +64,9 @@ class BaseTaskInstance(Model):
                 when the task instance finished.
             arguments (dict): The arguments the task instance was run
                 with.
-            manager (:obj:`BaseTaskInstanceManager`): The task instance manager
-                which spawned this task instance.
+            manager (:class:`saltant.models.base_task_instance.BaseTaskInstanceManager`):
+                The task instance manager which spawned this task
+                instance.
             name (str, optional): The name of the task instance.
                 Defaults to an empty string.
         """
@@ -88,7 +89,7 @@ class BaseTaskInstance(Model):
         """Clone this task instance.
 
         Returns:
-            :obj:`saltant.models.base_task_instance.BaseTaskInstance`:
+            :class:`saltant.models.base_task_instance.BaseTaskInstance`:
                 A task instance model instance representing the task
                 instance created due to the clone.
         """
@@ -98,9 +99,8 @@ class BaseTaskInstance(Model):
         """Terminate this task instance.
 
         Returns:
-            :obj:`saltant.models.base_task_instance.BaseTaskInstance`:
-                This task instance model's state after it told to
-                terminate.
+            :class:`saltant.models.base_task_instance.BaseTaskInstance`:
+                This task instance model after it was told to terminate.
         """
         return self.manager.terminate(self.uuid)
 
@@ -115,8 +115,8 @@ class BaseTaskInstance(Model):
                 seconds.
 
         Returns:
-            :obj:`saltant.models.base_task_instance.BaseTaskInstance`:
-                This task instance model's state after it finished.
+            :class:`saltant.models.base_task_instance.BaseTaskInstance`:
+                This task instance model after it finished.
         """
         return self.manager.wait_until_finished(
             uuid=self.uuid,
@@ -127,15 +127,15 @@ class BaseTaskInstanceManager(ModelManager):
     """Base manager for task instances.
 
     Attributes:
-        _client (:py:class:`saltant.client.Client`): An authenticated
+        _client (:class:`saltant.client.Client`): An authenticated
             saltant client.
         list_url (str): The URL to list task instances.
         detail_url (str): The URL format to get specific task instances.
         clone_url (str): The URL format to clone a task instance.
         terminate_url (str): The URL format to terminate a task
             instance.
-        model (:py:class:`saltant.models.resource.Model`): The model of
-            the task instance being used.
+        model (:class:`saltant.models.resource.Model`): The model of the
+            task instance being used.
     """
     clone_url = "NotImplemented"
     terminate_url = "NotImplemented"
@@ -148,7 +148,7 @@ class BaseTaskInstanceManager(ModelManager):
             uuid (str): The UUID of the task instance to get.
 
         Returns:
-            :obj:`saltant.models.base_task_instance.BaseTaskInstance`:
+            :class:`saltant.models.base_task_instance.BaseTaskInstance`:
                 A task instance model instance representing the task
                 instance requested.
         """
@@ -174,7 +174,7 @@ class BaseTaskInstanceManager(ModelManager):
                 instance.
 
         Returns:
-            :obj:`saltant.models.base_task_instance.BaseTaskInstance`:
+            :class:`saltant.models.base_task_instance.BaseTaskInstance`:
                 A task instance model instance representing the task
                 instance just created.
         """
@@ -209,7 +209,7 @@ class BaseTaskInstanceManager(ModelManager):
             uuid (str): The UUID of the task instance to clone.
 
         Returns:
-            :obj:`saltant.models.base_task_instance.BaseTaskInstance`:
+            :class:`saltant.models.base_task_instance.BaseTaskInstance`:
                 A task instance model instance representing the task
                 instance created due to the clone.
         """
@@ -240,9 +240,9 @@ class BaseTaskInstanceManager(ModelManager):
         Returns:
             list:
                 A list of
-                :obj:`saltant.models.base_task_instance.BaseTaskInstance`
-                instances representing the task instances created due to
-                the clone.
+                :class:`saltant.models.base_task_instance.BaseTaskInstance`
+                subclass instances representing the task instances
+                created due to the clone.
         """
         return [self.clone(uuid) for uuid in uuids]
 
@@ -253,7 +253,7 @@ class BaseTaskInstanceManager(ModelManager):
             uuid (str): The UUID of the task instance to terminate.
 
         Returns:
-            :obj:`saltant.models.base_task_instance.BaseTaskInstance`:
+            :class:`saltant.models.base_task_instance.BaseTaskInstance`:
                 A task instance model instance representing the task
                 instance that was told to terminate.
         """
@@ -284,7 +284,7 @@ class BaseTaskInstanceManager(ModelManager):
         Returns:
             list:
                 A list of
-                :obj:`saltant.models.base_task_instance.BaseTaskInstance`
+                :class:`saltant.models.base_task_instance.BaseTaskInstance`
                 instances representing the task instances told to
                 terminate.
         """
@@ -302,7 +302,7 @@ class BaseTaskInstanceManager(ModelManager):
                 before checking the tasks status. Defaults to 5 seconds.
 
         Returns:
-            :obj:`saltant.models.base_task_instance.BaseTaskInstance`:
+            :class:`saltant.models.base_task_instance.BaseTaskInstance`:
                 A task instance model instance representing the task
                 instance which we waited for.
         """
@@ -325,9 +325,9 @@ class BaseTaskInstanceManager(ModelManager):
             response_data (dict): The data from the request's response.
 
         Returns:
-            :py:obj:`saltant.models.resource.Model`:
-                A model instance representing the task instance from the
-                reponse data.
+            :class:`saltant.models.base_task_instance.BaseTaskInstance`:
+                A task instance model instance representing the task
+                instance from the reponse data.
         """
         # Coerce datetime strings into datetime objects
         response_data['datetime_created'] = (

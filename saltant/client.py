@@ -47,19 +47,19 @@ class Client:
         base_api_url (str): The URL of the saltant API.
         session (:class:`requests.Session`): A session object to make
             requests with.
-        container_task_instances (:py:obj:`saltant.models.container_task_instance.ContainerTaskInstanceManager`):
+        container_task_instances (:class:`saltant.models.container_task_instance.ContainerTaskInstanceManager`):
             A manager for performing actions related to container task
             instances.
-        container_task_types (:py:obj:`saltant.models.container_task_type.ContainerTaskTypeManager`):
+        container_task_types (:class:`saltant.models.container_task_type.ContainerTaskTypeManager`):
             A manager for performing actions related to container task
             types.
-        executable_task_instances (:py:obj:`saltant.models.executable_task_instance.ExecutableTaskInstanceManager`):
+        executable_task_instances (:class:`saltant.models.executable_task_instance.ExecutableTaskInstanceManager`):
             A manager for performing actions related to executable task
             instances.
-        executable_task_types (:py:obj:`saltant.models.executable_task_type.ExecutableTaskTypeManager`):
+        executable_task_types (:class:`saltant.models.executable_task_type.ExecutableTaskTypeManager`):
             A manager for performing actions related to executable task
             types.
-        task_queues (:py:obj:`saltant.models.task_queues.TaskQueueManager`):
+        task_queues (:class:`saltant.models.task_queues.TaskQueueManager`):
             A manager for performing actions related to task queues.
     """
     def __init__(
@@ -116,7 +116,7 @@ class Client:
         for saltant servers.
 
         Raises:
-            :py:class:`saltant.exceptions.AuthenticationError`: The
+            :class:`saltant.exceptions.AuthenticationError`: The
                 authentication provided was invalid.
         """
         response = self.session.get(self.base_api_url + 'users/')
@@ -158,7 +158,7 @@ class Client:
             :class:`Client`: A saltant API client object.
 
         Raises:
-            :py:class:`saltant.exceptions.BadEnvironmentError`: The user
+            :class:`saltant.exceptions.BadEnvironmentError`: The user
                 has an incorrectly configured environment.
         """
         # Get variables from environment
