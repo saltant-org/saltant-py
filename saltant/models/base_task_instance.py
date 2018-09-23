@@ -31,7 +31,7 @@ class BaseTaskInstance(Model):
         datetime_finished (:class:`datetime.datetime`): The datetime
             when the task instance finished.
         arguments (dict): The arguments the task instance was run with.
-        manager (:obj:`BaseTaskInstanceManger`): The task instance manager
+        manager (:obj:`BaseTaskInstanceManager`): The task instance manager
             which spawned this task instance. This is used to
             conveniently add clone, terminate, and wait_until_finished
             methods to the task instance model itself (such
@@ -64,7 +64,7 @@ class BaseTaskInstance(Model):
                 when the task instance finished.
             arguments (dict): The arguments the task instance was run
                 with.
-            manager (:obj:`BaseTaskInstanceManger`): The task instance manager
+            manager (:obj:`BaseTaskInstanceManager`): The task instance manager
                 which spawned this task instance.
             name (str, optional): The name of the task instance.
                 Defaults to an empty string.
