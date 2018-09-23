@@ -38,8 +38,8 @@ class Client:
 
     Example:
 
-        >>> import saltant
-        >>> client = saltant.Client(
+        >>> from saltant.client import Client
+        >>> client = Client(
         ...     base_api_url='https://shahlabjobs.ca/api/',
         ...     auth_token='p0gch4mp101fy451do9uod1s1x9i4a')
 
