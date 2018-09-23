@@ -132,8 +132,8 @@ class Client:
 
         Example:
 
-            >>> import saltant
-            >>> client = saltant.from_env()
+            >>> from saltant.client import from_env
+            >>> client = from_env()
 
         Args:
             default_timeout (int, optional): The maximum number of
