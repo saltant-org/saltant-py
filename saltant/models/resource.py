@@ -10,9 +10,7 @@ from saltant.constants import (
 
 class Model(object):
     """Base class for representing a model."""
-    def __str__(self):
-        """String representation of model."""
-        raise NotImplementedError
+    pass
 
 
 class ModelManager(object):
@@ -146,10 +144,6 @@ class ModelManager(object):
 
         # Return a model instance
         return self.response_data_to_model_instance(response.json())
-
-    def create(self):
-        """Create an instance of a model."""
-        raise NotImplementedError
 
     def response_data_to_model_instance(self, response_data):
         """Convert get response data to a model.

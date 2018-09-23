@@ -31,6 +31,9 @@ from saltant.models.executable_task_type import (
 from saltant.models.task_queue import (
     TaskQueueManager,
 )
+from saltant.models.user import (
+    UserManager,
+)
 
 
 class Client:
@@ -61,6 +64,8 @@ class Client:
             types.
         task_queues (:class:`saltant.models.task_queues.TaskQueueManager`):
             A manager for performing actions related to task queues.
+        users (:class:`saltant.models.user.UserManager`):
+            A manager for performing actions related to users.
     """
     def __init__(
             self,
@@ -107,6 +112,7 @@ class Client:
             ExecutableTaskInstanceManager(_client=self))
         self.executable_task_types = ExecutableTaskTypeManager(_client=self)
         self.task_queues = TaskQueueManager(_client=self)
+        self.users = UserManager(_client=self)
 
     def test_authentication(self):
         """Test that the client is authorized.
