@@ -56,6 +56,10 @@ class ModelManager(object):
                     {'name__startswith': 'azure',
                      'user__in': [1, 2, 3, 4],}
 
+                See saltant's API reference at
+                https://mwiens91.github.io/saltant/ for each model's
+                available filters.
+
         Returns:
             list:
                 A list of :class:`Model` instances matching the query
