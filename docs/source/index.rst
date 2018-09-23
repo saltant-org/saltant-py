@@ -22,6 +22,7 @@ License`_.
    main-content/installation
    main-content/client
    main-content/managers
+   main-content/models
 
 Indices and tables
 ==================
