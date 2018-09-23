@@ -77,8 +77,9 @@ class TaskQueueManager(ModelManager):
             name (str, optional): The name of the task type to get.
 
         Returns:
-            :class:`saltant.models.task_queue.TaskQueue`: A task queue
-                model instance representing the task queue requested.
+            :class:`saltant.models.task_queue.TaskQueue`:
+                A task queue model instance representing the task queue
+                requested.
 
         Raises:
             ValueError: Neither id nor name were set *or* both id and
@@ -112,8 +113,9 @@ class TaskQueueManager(ModelManager):
                 queue is active. Default to True.
 
         Returns:
-            :class:`saltant.models.task_queue.TaskQueue`: A task queue
-                model instance representing the task queue just created.
+            :class:`saltant.models.task_queue.TaskQueue`:
+                A task queue model instance representing the task queue
+                just created.
         """
         # Create the object
         request_url = self._client.base_api_url + self.list_url

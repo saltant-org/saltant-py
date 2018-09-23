@@ -173,7 +173,8 @@ class ModelManager(object):
             response_data (dict): The data from the request's response.
 
         Returns:
-            list: A list of :class:`saltant.models.resource.Model`
+            list:
+                A list of :class:`saltant.models.resource.Model`
                 subclass instances.
         """
         return [self.response_data_to_model_instance(subdata)

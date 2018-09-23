@@ -94,8 +94,9 @@ class BaseTaskTypeManager(ModelManager):
             name (str, optional): The name of the task type to get.
 
         Returns:
-            :class:`saltant.models.base_task_type.BaseTaskType`: A task
-                type model instance representing the task type requested.
+            :class:`saltant.models.base_task_type.BaseTaskType`:
+                A task type model instance representing the task type
+                requested.
 
         Raises:
             ValueError: Neither id nor name were set *or* both id and
@@ -180,9 +181,9 @@ class BaseTaskTypeManager(ModelManager):
             response_data (dict): The data from the request's response.
 
         Returns:
-            :class:`saltant.models.base_task_type.BaseTaskType`: A model
-                instance representing the task type from the reponse
-                data.
+            :class:`saltant.models.base_task_type.BaseTaskType`:
+                A model instance representing the task type from the
+                reponse data.
         """
         # Coerce datetime strings into datetime objects
         response_data['datetime_created'] = (
