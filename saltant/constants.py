@@ -4,6 +4,11 @@
 DEFAULT_TIMEOUT_SECONDS = 90
 
 
+# What refresh period to use in seconds when waiting for task instances
+# to finish
+DEFAULT_TASK_INSTANCE_WAIT_REFRESH_PERIOD = 5
+
+
 # Useful HTTP status codes (nice and verbose :D)
 HTTP_200_OK = 200
 HTTP_201_CREATED = 201
@@ -17,3 +22,8 @@ RUNNING = 'running'
 SUCCESSFUL = 'successful'
 FAILED = 'failed'
 TERMINATED = 'terminated'
+
+TASK_INSTANCE_FINISH_STATUSES = (
+    SUCCESSFUL,
+    FAILED,
+    TERMINATED,)
