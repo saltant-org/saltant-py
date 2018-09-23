@@ -111,7 +111,8 @@ class BaseTaskInstance(Model):
 
         Args:
             refresh_period (int, optional): How many seconds to wait
-                before checking the tasks status. Defaults to 5 seconds.
+                before checking the task's status. Defaults to 5
+                seconds.
 
         Returns:
             :obj:`saltant.models.base_task_instance.BaseTaskInstance`:
