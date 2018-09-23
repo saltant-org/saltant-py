@@ -20,6 +20,7 @@ License`_.
    :caption: Contents
 
    main-content/installation
+   main-content/client
 
 Indices and tables
 ==================

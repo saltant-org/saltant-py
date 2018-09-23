@@ -124,7 +124,7 @@ class Client:
         .. envvar:: SALTANT_API_URL
 
             The URL of the saltant API. For example,
-            https://shahlabjobs.ca/api/
+            https://shahlabjobs.ca/api/.
 
         .. envvar:: SALTANT_AUTH_TOKEN
 
