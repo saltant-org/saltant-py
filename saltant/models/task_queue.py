@@ -4,6 +4,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from saltant.constants import (
+    HTTP_200_OK,
     HTTP_201_CREATED,
 )
 from .resource import Model, ModelManager
@@ -20,6 +21,10 @@ class TaskQueue(Model):
         private (bool): A Booleon signalling whether the queue can only
             be used by its associated user.
         active (bool): A Booleon signalling whether the queue is active.
+        manager (:class:`saltant.models.task_queue.TaskQueueManager`):
+            The task queue manager which spawned this task instance.
+            This is used to add an update method to the task queue
+            instance.
     """
     def __init__(self,
                  id,
@@ -27,7 +32,8 @@ class TaskQueue(Model):
                  name,
                  description,
                  private,
-                 active,):
+                 active,
+                 manager,):
         """Initialize a task queue.
 
         Args:
@@ -39,6 +45,10 @@ class TaskQueue(Model):
                 only be used by its associated user.
             active (bool): A Booleon signalling whether the queue is
                 active.
+            manager (:class:`saltant.models.task_queue.TaskQueueManager`):
+                The task queue manager which spawned this task instance.
+                This is used to add an update method to the task queue
+                instance.
         """
         self.id = id
         self.user = user
@@ -46,10 +56,21 @@ class TaskQueue(Model):
         self.description = description
         self.private = private
         self.active = active
+        self.manager = manager
 
     def __str__(self):
         """String representation of the task queue."""
         return self.name
+
+    def update(self):
+        """Updates this task queue.
+
+        Returns:
+            :class:`saltant.models.task_queue.TaskQueue`:
+                A task queue model instance representing the task queue
+                just updated.
+        """
+        return self.manager.update(self)
 
 
 class TaskQueueManager(ModelManager):
@@ -136,3 +157,55 @@ class TaskQueueManager(ModelManager):
 
         # Return a model instance representing the task instance
         return self.response_data_to_model_instance(response.json())
+
+    def update(self, task_queue):
+        """Updates a task queue.
+
+        Args:
+            task_queue (:class:`saltant.models.task_queue.TaskQueue`):
+                A task queue model instance to be used for updating the
+                corresponding model instance on the saltant server.
+
+        Returns:
+            :class:`saltant.models.task_queue.TaskQueue`:
+                A task queue model instance representing the task queue
+                just updated.
+        """
+        # Create the object
+        request_url = self._client.base_api_url + self.list_url
+        data_to_put = {
+            "name": task_queue.name,
+            "description": task_queue.description,
+            "private": task_queue.private,
+            "active": task_queue.active,}
+
+        response = self._client.session.put(request_url, data=data_to_put)
+
+        # Validate that the request was successful
+        self.validate_request_success(
+            response_text=response.text,
+            request_url=request_url,
+            status_code=response.status_code,
+            expected_status_code=HTTP_200_OK,)
+
+        # Return a model instance representing the task instance
+        return self.response_data_to_model_instance(response.json())
+
+    def response_data_to_model_instance(self, response_data):
+        """Convert response data to a task queue model.
+
+        Args:
+            response_data (dict): The data from the request's response.
+
+        Returns:
+            :class:`saltant.models.task_queue.TaskQueue`:
+                A task queuemodel instance representing the task queue
+                from the reponse data.
+        """
+        # Add in this manager to the data
+        response_data['manager'] = self
+
+        # Instantiate a model for the task queue
+        return super(
+            TaskQueueManager,
+            self).response_data_to_model_instance(response_data)
