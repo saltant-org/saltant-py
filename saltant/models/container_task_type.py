@@ -34,6 +34,9 @@ class ContainerTaskType(BaseTaskType):
             ubuntu:14.04 for Docker; and docker://ubuntu:14:04 or
             shub://vsoch/hello-world for Singularity.
         container_type (str): The type of the container.
+        manager (:class:`saltant.models.container_task_type.ContainerTaskTypeManager`):
+            The task type manager which spawned this task type. This is
+            used to add an update method to the task type instance.
     """
     def __init__(
             self,
@@ -49,7 +52,8 @@ class ContainerTaskType(BaseTaskType):
             logs_path,
             results_path,
             container_image,
-            container_type,):
+            container_type,
+            manager,):
         """Initialize a container task type.
 
         Args:
@@ -73,6 +77,10 @@ class ContainerTaskType(BaseTaskType):
                 example, ubuntu:14.04 for Docker; and docker://ubuntu:14:04
                 or shub://vsoch/hello-world for Singularity.
             container_type (str): The type of the container.
+            manager (:class:`saltant.models.container_task_type.ContainerTaskTypeManager`):
+                The task type manager which spawned this task type. This
+                is used to add an update method to the task type
+                instance.
         """
         # Call the parent constructor
         super(ContainerTaskType, self).__init__(
@@ -85,6 +93,7 @@ class ContainerTaskType(BaseTaskType):
             environment_variables=environment_variables,
             required_arguments=required_arguments,
             required_arguments_default_values=required_arguments_default_values,
+            manager=manager,
         )
 
         # Add in the attributes unique to container task types
@@ -171,3 +180,36 @@ class ContainerTaskTypeManager(BaseTaskTypeManager):
             required_arguments=required_arguments,
             required_arguments_default_values=required_arguments_default_values,
             extra_data_to_post=extra_data_to_post,)
+
+    def update(self, task_type, extra_data_to_put=None):
+        """Updates a task type.
+
+        Args:
+            task_type (:class:`saltant.models.container_task_type.ContainerTaskType`):
+                A :class:`saltant.models.container_task_type.ContainerTaskType`
+                instance to be used for updating the corresponding model
+                instance on the saltant server.
+            extra_data_to_put (dict, optional): Extra key-value pairs to
+                add to the request data. This is useful for subclasses
+                which require extra parameters.
+
+        Returns:
+            :class:`saltant.models.container_task_type.ContainerTaskType`:
+                A :class:`saltant.models.container_task_type.ContainerTaskType`
+                instance representing the task type just updated.
+        """
+        # Add in extra data specific to container task types
+        if extra_data_to_put is None:
+            extra_data_to_put = {}
+
+        extra_data_to_put.update({
+            'container_image': task_type.container_image,
+            'container_type': task_type.container_type,
+            'logs_path': task_type.logs_path,
+            'results_path': task_type.results_path,
+        })
+
+        # Call the parent create function
+        return super(ContainerTaskTypeManager, self).update(
+            task_type,
+            extra_data_to_put,)

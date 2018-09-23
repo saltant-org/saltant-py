@@ -22,9 +22,8 @@ class TaskQueue(Model):
             be used by its associated user.
         active (bool): A Booleon signalling whether the queue is active.
         manager (:class:`saltant.models.task_queue.TaskQueueManager`):
-            The task queue manager which spawned this task instance.
-            This is used to add an update method to the task queue
-            instance.
+            The task queue manager which spawned this task queue. This
+            is used to add an update method to the task queue instance.
     """
     def __init__(self,
                  id,

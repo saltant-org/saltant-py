@@ -6,6 +6,7 @@ from __future__ import print_function
 import json
 import dateutil.parser
 from saltant.constants import (
+    HTTP_200_OK,
     HTTP_201_CREATED,
 )
 from .resource import Model, ModelManager
@@ -27,6 +28,9 @@ class BaseTaskType(Model):
         required_arguments (list): The argument names for the task type.
         required_arguments_default_values (dict): Default values for the
             tasks required arguments.
+        manager (:class:`saltant.models.base_task_type.BaseTaskTypeManager`):
+            The task type manager which spawned this task type. This is
+            used to add an update method to the task type instance.
     """
     def __init__(
             self,
@@ -38,7 +42,8 @@ class BaseTaskType(Model):
             command_to_run,
             environment_variables,
             required_arguments,
-            required_arguments_default_values,):
+            required_arguments_default_values,
+            manager,):
         """Initialize a task type.
 
         Args:
@@ -54,6 +59,10 @@ class BaseTaskType(Model):
             required_arguments (list): The argument names for the task type.
             required_arguments_default_values (dict): Default values for
                 the tasks required arguments.
+            manager (:class:`saltant.models.base_task_type.BaseTaskTypeManager`):
+                The task type manager which spawned this task type. This
+                is used to add an update method to the task type
+                instance.
         """
         self.id = id
         self.name = name
@@ -65,10 +74,21 @@ class BaseTaskType(Model):
         self.required_arguments = required_arguments
         self.required_arguments_default_values = (
             required_arguments_default_values)
+        self.manager = manager
 
     def __str__(self):
         """String representation of the task type."""
         return "%s (%s)" % (self.name, self.user)
+
+    def update(self):
+        """Updates this task type.
+
+        Returns:
+            :class:`saltant.models.base_task_type.BaseTaskType`:
+                A task queue model instance representing the task queue
+                just updated.
+        """
+        return self.manager.update(self)
 
 
 class BaseTaskTypeManager(ModelManager):
@@ -180,6 +200,55 @@ class BaseTaskTypeManager(ModelManager):
             expected_status_code=HTTP_201_CREATED,)
 
         # Return a model instance representing the task type
+        return self.response_data_to_model_instance(response.json())
+
+    def update(self, task_type, extra_data_to_put=None):
+        """Updates a task type.
+
+        Args:
+            task_type (:class:`saltant.models.base_task_type.BaseTaskType`):
+                A :class:`saltant.models.base_task_type.BaseTaskType`
+                subclass instance to be used for updating the
+                corresponding model instance on the saltant server.
+            extra_data_to_put (dict, optional): Extra key-value pairs to
+                add to the request data. This is useful for subclasses
+                which require extra parameters.
+
+        Returns:
+            :class:`saltant.models.base_task_type.BaseTaskType`:
+                A :class:`saltant.models.base_task_type.BaseTaskType`
+                subclass instance representing the task type just
+                updated.
+        """
+        # Update the object
+        request_url = (
+            self._client.base_api_url
+            + self.detail_url.format(id=task_type.id))
+        data_to_put = {
+            "name": task_type.name,
+            "description": task_type.description,
+            "command_to_run": task_type.command_to_run,
+            "environment_variables": json.dumps(
+                task_type.environment_variables),
+            "required_arguments": json.dumps(task_type.required_arguments),
+            "required_arguments_default_values": json.dumps(
+                task_type.required_arguments_default_values),
+        }
+
+        # Add in extra data if any was passed in
+        if extra_data_to_put is not None:
+            data_to_put.update(extra_data_to_put)
+
+        response = self._client.session.put(request_url, data=data_to_put)
+
+        # Validate that the request was successful
+        self.validate_request_success(
+            response_text=response.text,
+            request_url=request_url,
+            status_code=response.status_code,
+            expected_status_code=HTTP_200_OK,)
+
+        # Return a model instance representing the task instance
         return self.response_data_to_model_instance(response.json())
 
     def response_data_to_model_instance(self, response_data):
