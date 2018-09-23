@@ -59,6 +59,8 @@ class Client:
         executable_task_types (:py:obj:`saltant.models.executable_task_type.ExecutableTaskTypeManager`):
             A manager for performing actions related to executable task
             types.
+        task_queues (:py:obj:`saltant.models.task_queues.TaskQueueManager`):
+            A manager for performing actions related to task queues.
     """
     def __init__(
             self,
