@@ -12,6 +12,10 @@ the comforts (hopefully) of Python. As a refresher, you might want to
 look at [saltant's API reference](https://mwiens91.github.io/saltant/)
 to see what actions are possible.
 
+The documentation for saltant-py is fairly comprehensive, and can be
+found at
+[saltant-py.readthedocs.io](https://saltant-py.readthedocs.io/en/latest/).
+
 ## Installation
 
 Using pip,
