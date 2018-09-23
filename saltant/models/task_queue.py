@@ -171,8 +171,10 @@ class TaskQueueManager(ModelManager):
                 A task queue model instance representing the task queue
                 just updated.
         """
-        # Create the object
-        request_url = self._client.base_api_url + self.list_url
+        # Update the object
+        request_url = (
+            self._client.base_api_url
+            + self.detail_url.format(id=task_queue.id))
         data_to_put = {
             "name": task_queue.name,
             "description": task_queue.description,
