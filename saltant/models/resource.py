@@ -49,13 +49,16 @@ class ModelManager(object):
 
         Args:
             filters (dict, optional): API query filters to apply to the
-                request. For example,
+                request. For example:
 
-                {'name__startswith': 'azure',
-                 'user__in': [1, 2, 3, 4],}
+                .. code-block:: python
+
+                    {'name__startswith': 'azure',
+                     'user__in': [1, 2, 3, 4],}
 
         Returns:
-            list: A list of :class:`Model` instances matching the query
+            list:
+                A list of :class:`Model` instances matching the query
                 parameters
         """
         # Add in the page and page_size parameters to the filter, such

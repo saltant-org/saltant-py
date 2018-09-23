@@ -188,10 +188,11 @@ class BaseTaskInstanceManager(ModelManager):
                 task instances to clone.
 
         Returns:
-            list: A list of
+            list:
+                A list of
                 :obj:`saltant.models.base_task_instance.BaseTaskInstance`
-                representing the task instances created due to the
-                clone.
+                instances representing the task instances created due to
+                the clone.
         """
         return [self.clone(uuid) for uuid in uuids]
 
@@ -231,9 +232,11 @@ class BaseTaskInstanceManager(ModelManager):
                 task instances to terminate.
 
         Returns:
-            list: A list of
+            list:
+                A list of
                 :obj:`saltant.models.base_task_instance.BaseTaskInstance`
-                representing the task instances told to terminate.
+                instances representing the task instances told to
+                terminate.
         """
         return [self.terminate(uuid) for uuid in uuids]
 
