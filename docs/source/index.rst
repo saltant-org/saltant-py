@@ -11,9 +11,15 @@ action possible on the saltant API (some much more conveniently) within
 the comforts (hopefully) of Python. As a refresher, you might want to
 look at `saltant's API reference`_ to see what actions are possible.
 
+The source code for saltant-py is available at
+`github.com/mwiens91/saltant-py`_ and is licensed under the `MIT
+License`_.
+
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :maxdepth: 1
+   :caption: Contents
+
+   main-content/installation
 
 Indices and tables
 ==================
@@ -23,5 +29,7 @@ Indices and tables
 * :ref:`search`
 
 .. Links
+.. _github.com/mwiens91/saltant-py: https://github.com/mwiens91/saltant-py/
+.. _MIT License: https://opensource.org/licenses/MIT
 .. _saltant: https://github.com/mwiens91/saltant
 .. _saltant's API reference: https://mwiens91.github.io/saltant/
