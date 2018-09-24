@@ -132,8 +132,8 @@ class ModelManager(object):
         """Get the model instance with a given id.
 
         Args:
-            id (str): The primary identifier (e.g., pk or UUID) for the
-                task instance to get.
+            id (int or str): The primary identifier (e.g., pk or UUID)
+                for the task instance to get.
 
         Returns:
             :class:`saltant.models.resource.Model`:
