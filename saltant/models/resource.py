@@ -9,9 +9,19 @@ from saltant.constants import (
 )
 
 class Model(object):
-    """Base class for representing a model."""
+    """Base class for representing a model.
+
+    Attributes:
+        manager (:class:`saltant.models.resource.Manager`):
+            The manager which spawned this model instance.
+    """
     def __init__(self, manager):
-        """Initialize the model."""
+        """Initialize the model.
+
+        Args:
+            manager (:class:`saltant.models.resource.Manager`):
+                The manager which spawned this model instance.
+        """
         self.manager = manager
 
 
@@ -25,8 +35,6 @@ class ModelManager(object):
         detail_url (str): The URL format to get specific models.
         model (:class:`saltant.models.resource.Model`): The model
             being used.
-        manager (:class:`saltant.models.resource.Manager`):
-            The manager which spawned this model instance.
     """
     list_url = "NotImplemented"
     detail_url = "NotImplemented"
@@ -38,11 +46,8 @@ class ModelManager(object):
         Args:
             _client (:class:`saltant.client.Client`): An
                 authenticated saltant client.
-            manager (:class:`saltant.models.resource.Manager`):
-                The manager which spawned this model instance.
         """
         self._client = _client
-        self.manager = manager
 
     def list(self, filters=None):
         """List model instances.
