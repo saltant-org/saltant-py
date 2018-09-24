@@ -38,8 +38,8 @@ class User(Model):
         updates the existing object.
 
         Returns:
-            :class:`saltant.models.user.User`: This user instance after
-                syncing.
+            :class:`saltant.models.user.User`:
+                This user instance after syncing.
         """
         self = self.manager.get(username=self.username)
 

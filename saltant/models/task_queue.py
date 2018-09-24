@@ -68,8 +68,8 @@ class TaskQueue(Model):
         updates the existing object.
 
         Returns:
-            :class:`saltant.models.task_queue.TaskQueue`: This task
-                queue instance after syncing.
+            :class:`saltant.models.task_queue.TaskQueue`:
+                This task queue instance after syncing.
         """
         self = self.manager.get(id=self.id)
 
