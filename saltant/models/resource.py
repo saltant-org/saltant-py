@@ -40,7 +40,7 @@ class ModelManager(object):
     detail_url = "NotImplemented"
     model = Model
 
-    def __init__(self, _client, manager):
+    def __init__(self, _client):
         """Save the client so we can make API calls in the manager.
 
         Args:
