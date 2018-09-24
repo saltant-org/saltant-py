@@ -61,6 +61,20 @@ class TaskQueue(Model):
         """String representation of the task queue."""
         return self.name
 
+    def sync(self):
+        """Sync this model with latest data on the saltant server.
+
+        Note that in addition to returning the updated object, it also
+        updates the existing object.
+
+        Returns:
+            :class:`saltant.models.task_queue.TaskQueue`: This task
+                queue instance after syncing.
+        """
+        self = self.manager.get(id=self.id)
+
+        return self
+
     def put(self):
         """Updates this task queue on the saltant server.
 
