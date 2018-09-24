@@ -55,7 +55,7 @@ class UserManager(ModelManager):
         """Get a user.
 
         Args:
-            name (str): The username of the user to get.
+            username (str): The username of the user to get.
 
         Returns:
             :class:`saltant.models.user.User`:
