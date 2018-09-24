@@ -32,60 +32,49 @@ python setup.py install
 
 where `python` is in versions 2.7 or 3.5+.
 
-## Example
+## Usage
+
+After connecting to the saltant server with
 
 ```python
-from __future__ import print_function
-import time
-from saltant.client import Client
-from saltant.constants import (
-    SUCCESSFUL,
-    FAILED,
-)
-
-API_TOKEN = 'p0gch4mp101fy451do9uod1s1x9i4a'
-API_BASE_URL = 'https://shahlabjobs.ca/api/'
-TASK_INSTANCE_UUID_TO_GET = '4ce0f9f1-9ae3-4baf-8838-76a19758fb29'
-
-
-# Instantiate a Client object
-client = Client(base_api_url=API_BASE_URL, auth_token=API_TOKEN)
-
-# GET a task instance we know the UUID of. This will return an instance
-# of the ExecutableTaskInstance model.
-my_task_instance = client.executable_task_instances.get(
-    uuid=TASK_INSTANCE_UUID_TO_GET)
-
-# List attributes and methods of the task instance we just got.
-print(dir(my_task_instance))
-
-# Launch an instance of executable task type 1 :D
-new_task_instance = client.executable_task_instances.create(
-    name="saltant-py test",
-    arguments={
-        "tag_name": None,
-        "output_dir": "/shahlab/archive/single_cell_indexing/NextSeq/fastq/160705_NS500668_0105_AHGTTWBGXY",
-        "flowcell_id": "AHGTTWBGXY",
-        "storage_name": "shahlab",
-        "storage_directory": "/shahlab/archive"
-    },
-    task_queue_id=1,
-    task_type_id=1,
-)
-
-# Wait until task instance completes
-while True:
-    # Wait a bit
-    time.sleep(3)
-
-    # Get job's status
-    status = client.executable_task_instances.get(
-        uuid=new_task_instance.uuid).state
-
-    if status == SUCCESSFUL:
-        print("yay!")
-        break
-    elif status == FAILED:
-        print("noo!")
-        break
+from saltant.client import from_env
+client = from_env() # uses env vars
 ```
+
+or
+
+```python
+from saltant.client import Client
+client = Client(
+    base_api_url='https://shahlabjobs.ca/api/',
+    auth_token='p0gch4mp101fy451do9uod1s1x9i4a')
+```
+
+You can perform API operations on task types:
+
+```python
+# Load in a task type
+my_task_type = client.container_task_types.get(id=1)
+
+# Edit the description of the task type
+my_task_type.description = "this description is better"
+
+# Push the description upstream
+my_task_type.put()
+```
+
+You can launch task instances:
+
+```python
+# Launch a task instance
+my_task_instance = client.container_task_instances.create(
+    task_type_id=my_task_type.id,
+    task_queue_id=1,
+    arguments={"launch_code": 12345},
+)
+
+# Wait for the task instance to finish
+my_task_instance.wait_until_finished()
+```
+
+And much more! (See the docs for more details.)
