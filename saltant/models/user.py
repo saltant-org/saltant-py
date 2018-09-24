@@ -15,7 +15,7 @@ class User(Model):
         manager (:class:`saltant.models.user.UserManager`):
             The manager which spawned this user instance.
     """
-    def __init__(self, username, email):
+    def __init__(self, username, email, manager):
         """Initialize a user.
 
         Args:

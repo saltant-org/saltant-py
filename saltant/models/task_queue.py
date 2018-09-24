@@ -69,7 +69,12 @@ class TaskQueue(Model):
                 A task queue model instance representing the task queue
                 just updated.
         """
-        return self.manager.put(self)
+        return self.manager.put(
+            id=self.id,
+            name=self.name,
+            description=self.description,
+            private=self.private,
+            active=self.active)
 
 
 class TaskQueueManager(ModelManager):
@@ -157,13 +162,17 @@ class TaskQueueManager(ModelManager):
         # Return a model instance representing the task instance
         return self.response_data_to_model_instance(response.json())
 
-    def put(self, task_queue):
+    def put(self, id, name, description, private, active):
         """Updates a task queue on the saltant server.
 
         Args:
-            task_queue (:class:`saltant.models.task_queue.TaskQueue`):
-                A task queue model instance to be used for updating the
-                corresponding model instance on the saltant server.
+            id (int): The ID of the task queue.
+            name (str): The name of the task queue.
+            description (str): The description of the task queue.
+            private (bool): A Booleon signalling whether the queue can
+                only be used by its associated user.
+            active (bool): A Booleon signalling whether the queue is
+                active.
 
         Returns:
             :class:`saltant.models.task_queue.TaskQueue`:
@@ -173,12 +182,12 @@ class TaskQueueManager(ModelManager):
         # Update the object
         request_url = (
             self._client.base_api_url
-            + self.detail_url.format(id=task_queue.id))
+            + self.detail_url.format(id=id))
         data_to_put = {
-            "name": task_queue.name,
-            "description": task_queue.description,
-            "private": task_queue.private,
-            "active": task_queue.active,}
+            "name": name,
+            "description": description,
+            "private": private,
+            "active": active,}
 
         response = self._client.session.put(request_url, data=data_to_put)
 

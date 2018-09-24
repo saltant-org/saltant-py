@@ -84,10 +84,19 @@ class BaseTaskType(Model):
 
         Returns:
             :class:`saltant.models.base_task_type.BaseTaskType`:
-                A task queue model instance representing the task queue
+                A task type model instance representing the task type
                 just updated.
         """
-        return self.manager.put(self)
+        return self.manager.put(
+            id=self.id,
+            name=self.name,
+            description=self.description,
+            command_to_run=self.command_to_run,
+            environment_variables=self.environment_variables,
+            required_arguments=self.required_arguments,
+            required_arguments_default_values=(
+                self.required_arguments_default_values),
+        )
 
 
 class BaseTaskTypeManager(ModelManager):
@@ -201,14 +210,27 @@ class BaseTaskTypeManager(ModelManager):
         # Return a model instance representing the task type
         return self.response_data_to_model_instance(response.json())
 
-    def put(self, task_type, extra_data_to_put=None):
+    def put(self,
+            id,
+            name,
+            description,
+            command_to_run,
+            environment_variables,
+            required_arguments,
+            required_arguments_default_values,
+            extra_data_to_put=None):
         """Updates a task type on the saltant server.
 
         Args:
-            task_type (:class:`saltant.models.base_task_type.BaseTaskType`):
-                A :class:`saltant.models.base_task_type.BaseTaskType`
-                subclass instance to be used for updating the
-                corresponding model instance on the saltant server.
+            id (int): The ID of the task type.
+            name (str): The name of the task type.
+            description (str): The description of the task type.
+            command_to_run (str): The command to run to execute the task.
+            environment_variables (list): The environment variables
+                required on the host to execute the task.
+            required_arguments (list): The argument names for the task type.
+            required_arguments_default_values (dict): Default values for
+                the tasks required arguments.
             extra_data_to_put (dict, optional): Extra key-value pairs to
                 add to the request data. This is useful for subclasses
                 which require extra parameters.
@@ -222,16 +244,15 @@ class BaseTaskTypeManager(ModelManager):
         # Update the object
         request_url = (
             self._client.base_api_url
-            + self.detail_url.format(id=task_type.id))
+            + self.detail_url.format(id=id))
         data_to_put = {
-            "name": task_type.name,
-            "description": task_type.description,
-            "command_to_run": task_type.command_to_run,
-            "environment_variables": json.dumps(
-                task_type.environment_variables),
-            "required_arguments": json.dumps(task_type.required_arguments),
+            "name": name,
+            "description": description,
+            "command_to_run": command_to_run,
+            "environment_variables": json.dumps(environment_variables),
+            "required_arguments": json.dumps(required_arguments),
             "required_arguments_default_values": json.dumps(
-                task_type.required_arguments_default_values),
+                required_arguments_default_values),
         }
 
         # Add in extra data if any was passed in
