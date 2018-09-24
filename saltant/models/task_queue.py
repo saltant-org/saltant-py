@@ -22,8 +22,7 @@ class TaskQueue(Model):
             be used by its associated user.
         active (bool): A Booleon signalling whether the queue is active.
         manager (:class:`saltant.models.task_queue.TaskQueueManager`):
-            The task queue manager which spawned this task queue. This
-            is used to add a put method to the task queue instance.
+            The task queue manager which spawned this task queue.
     """
     def __init__(self,
                  id,
@@ -46,16 +45,17 @@ class TaskQueue(Model):
                 active.
             manager (:class:`saltant.models.task_queue.TaskQueueManager`):
                 The task queue manager which spawned this task instance.
-                This is used to add a put method to the task queue
-                instance.
         """
+        # Call the parent constructor
+        super(TaskQueue, self).__init__(manager)
+
+        # Add in task queue stuff
         self.id = id
         self.user = user
         self.name = name
         self.description = description
         self.private = private
         self.active = active
-        self.manager = manager
 
     def __str__(self):
         """String representation of the task queue."""
@@ -191,22 +191,3 @@ class TaskQueueManager(ModelManager):
 
         # Return a model instance representing the task instance
         return self.response_data_to_model_instance(response.json())
-
-    def response_data_to_model_instance(self, response_data):
-        """Convert response data to a task queue model.
-
-        Args:
-            response_data (dict): The data from the request's response.
-
-        Returns:
-            :class:`saltant.models.task_queue.TaskQueue`:
-                A task queuemodel instance representing the task queue
-                from the reponse data.
-        """
-        # Add in this manager to the data
-        response_data['manager'] = self
-
-        # Instantiate a model for the task queue
-        return super(
-            TaskQueueManager,
-            self).response_data_to_model_instance(response_data)

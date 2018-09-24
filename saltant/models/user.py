@@ -12,6 +12,8 @@ class User(Model):
     Attributes:
         username (str): The user's username.
         email (str): The user's email.
+        manager (:class:`saltant.models.user.UserManager`):
+            The manager which spawned this user instance.
     """
     def __init__(self, username, email):
         """Initialize a user.
@@ -19,7 +21,13 @@ class User(Model):
         Args:
             username (str): The user's username.
             email (str): The user's email.
+            manager (:class:`saltant.models.user.UserManager`):
+                The manager which spawned this user instance.
         """
+        # Call parent constructor
+        super(User, self).__init__(manager)
+
+        # Add in user stuff
         self.username = username
         self.email = email
 

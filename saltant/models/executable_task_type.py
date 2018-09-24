@@ -25,6 +25,8 @@ class ExecutableTaskType(BaseTaskType):
         required_arguments (list): The argument names for the task type.
         required_arguments_default_values (dict): Default values for the
             tasks required arguments.
+        manager (:class:`saltant.models.executable_task_type.ExecutableTaskTypeManager`):
+            The task type manager which spawned this task type instance.
     """
     pass
 

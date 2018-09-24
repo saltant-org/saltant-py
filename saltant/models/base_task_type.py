@@ -29,8 +29,7 @@ class BaseTaskType(Model):
         required_arguments_default_values (dict): Default values for the
             tasks required arguments.
         manager (:class:`saltant.models.base_task_type.BaseTaskTypeManager`):
-            The task type manager which spawned this task type. This is
-            used to add a put method to the task type instance.
+            The task type manager which spawned this task type.
     """
     def __init__(
             self,
@@ -60,9 +59,11 @@ class BaseTaskType(Model):
             required_arguments_default_values (dict): Default values for
                 the tasks required arguments.
             manager (:class:`saltant.models.base_task_type.BaseTaskTypeManager`):
-                The task type manager which spawned this task type. This
-                is used to add a put method to the task type instance.
+                The task type manager which spawned this task type.
         """
+        # Call parent constructor
+        super(BaseTaskType, self).__init__(manager)
+
         self.id = id
         self.name = name
         self.description = description
@@ -73,7 +74,6 @@ class BaseTaskType(Model):
         self.required_arguments = required_arguments
         self.required_arguments_default_values = (
             required_arguments_default_values)
-        self.manager = manager
 
     def __str__(self):
         """String representation of the task type."""

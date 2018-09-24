@@ -10,7 +10,9 @@ from saltant.constants import (
 
 class Model(object):
     """Base class for representing a model."""
-    pass
+    def __init__(self, manager):
+        """Initialize the model."""
+        self.manager = manager
 
 
 class ModelManager(object):
@@ -23,19 +25,24 @@ class ModelManager(object):
         detail_url (str): The URL format to get specific models.
         model (:class:`saltant.models.resource.Model`): The model
             being used.
+        manager (:class:`saltant.models.resource.Manager`):
+            The manager which spawned this model instance.
     """
     list_url = "NotImplemented"
     detail_url = "NotImplemented"
     model = Model
 
-    def __init__(self, _client):
+    def __init__(self, _client, manager):
         """Save the client so we can make API calls in the manager.
 
         Args:
             _client (:class:`saltant.client.Client`): An
                 authenticated saltant client.
+            manager (:class:`saltant.models.resource.Manager`):
+                The manager which spawned this model instance.
         """
         self._client = _client
+        self.manager = manager
 
     def list(self, filters=None):
         """List model instances.
@@ -157,6 +164,9 @@ class ModelManager(object):
                 instance representing the resource given in the
                 request's response data.
         """
+        # Add in this manager to the data
+        response_data['manager'] = self
+
         # Instantiate a model
         return self.model(**response_data)
 

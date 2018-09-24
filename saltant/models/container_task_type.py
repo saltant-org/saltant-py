@@ -35,8 +35,7 @@ class ContainerTaskType(BaseTaskType):
             shub://vsoch/hello-world for Singularity.
         container_type (str): The type of the container.
         manager (:class:`saltant.models.container_task_type.ContainerTaskTypeManager`):
-            The task type manager which spawned this task type. This is
-            used to add a put method to the task type instance.
+            The task type manager which spawned this task type.
     """
     def __init__(
             self,
@@ -78,8 +77,7 @@ class ContainerTaskType(BaseTaskType):
                 or shub://vsoch/hello-world for Singularity.
             container_type (str): The type of the container.
             manager (:class:`saltant.models.container_task_type.ContainerTaskTypeManager`):
-                The task type manager which spawned this task type. This
-                is used to add a put method to the task type instance.
+                The task type manager which spawned this task type.
         """
         # Call the parent constructor
         super(ContainerTaskType, self).__init__(

@@ -70,6 +70,10 @@ class BaseTaskInstance(Model):
             name (str, optional): The name of the task instance.
                 Defaults to an empty string.
         """
+        # Call the parent constructor
+        super(BaseTaskInstance, self).__init__(manager)
+
+        # Add in task instance stuff
         self.name = name
         self.uuid = uuid
         self.state = state
@@ -79,7 +83,6 @@ class BaseTaskInstance(Model):
         self.datetime_created = datetime_created
         self.datetime_finished = datetime_finished
         self.arguments = arguments
-        self.manager = manager
 
     def __str__(self):
         """String representation of the task instance."""
@@ -336,9 +339,6 @@ class BaseTaskInstanceManager(ModelManager):
         if response_data['datetime_finished']:
             response_data['datetime_finished'] = (
                 dateutil.parser.parse(response_data['datetime_finished']))
-
-        # Add in this manager to the data
-        response_data['manager'] = self
 
         # Instantiate a model for the task instance
         return super(

@@ -25,6 +25,8 @@ class ExecutableTaskInstance(BaseTaskInstance):
         datetime_finished (:class:`datetime.datetime`): The datetime
             when the task instance finished.
         arguments (dict): The arguments the task instance was run with.
+        manager (:class:`saltant.models.executable_task_instance.ExecutableTaskInstanceManager`):
+            The task instance manager which spawned this task instance.
     """
     pass
 

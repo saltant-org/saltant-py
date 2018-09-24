@@ -25,6 +25,9 @@ class ContainerTaskInstance(BaseTaskInstance):
         datetime_finished (:class:`datetime.datetime`): The datetime
             when the task instance finished.
         arguments (dict): The arguments the task instance was run with.
+        manager (:class:`saltant.models.container_task_instance.ContainerTaskInstanceManager`):
+            The task instance manager which spawned this task instance
+            ... instance.
     """
     pass
 
