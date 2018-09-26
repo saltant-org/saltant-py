@@ -7,8 +7,16 @@ python:
   - "3.7-dev"
 
 install:
+  # Install Codecov
+  - pip install codecov
+
+  # Install requirements
   - pip install -r requirements/base-requirements.txt
 
 script:
   # Basically does nothing
   - python -c "from saltant.client import Client"
+
+after_success:
+  # Upload code coverage to Codecov
+  - codecov
