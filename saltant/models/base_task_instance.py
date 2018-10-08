@@ -316,7 +316,8 @@ class BaseTaskInstanceManager(ModelManager):
         Args:
             uuid (str): The UUID of the task instance to wait for.
             refresh_period (int, optional): How many seconds to wait
-                before checking the tasks status. Defaults to 5 seconds.
+                in between checking the task's status. Defaults to 5
+                seconds.
 
         Returns:
             :class:`saltant.models.base_task_instance.BaseTaskInstance`:
