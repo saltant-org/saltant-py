@@ -315,7 +315,7 @@ class BaseTaskInstanceManager(ModelManager):
 
         Args:
             uuid (str): The UUID of the task instance to wait for.
-            refresh_period (int, optional): How many seconds to wait
+            refresh_period (float, optional): How many seconds to wait
                 in between checking the task's status. Defaults to 5
                 seconds.
 
