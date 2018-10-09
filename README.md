@@ -79,3 +79,7 @@ my_task_instance.wait_until_finished()
 ```
 
 And much more! (See the docs for more details.)
+
+## See also
+
+[saltant-cli](https://github.com/mwiens91/saltant-cli/), a saltant CLI.
