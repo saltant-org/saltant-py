@@ -27,7 +27,7 @@ class BaseTaskType(Model):
             on the host to execute the task.
         required_arguments (list): The argument names for the task type.
         required_arguments_default_values (dict): Default values for the
-            tasks required arguments.
+            task's required arguments.
         manager (:class:`saltant.models.base_task_type.BaseTaskTypeManager`):
             The task type manager which spawned this task type.
     """

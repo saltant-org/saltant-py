@@ -170,7 +170,7 @@ class ContainerTaskTypeManager(BaseTaskTypeManager):
             required_arguments (list, optional): The argument names for
                 the task type.
             required_arguments_default_values (dict, optional): Default
-                values for the tasks required arguments.
+                values for the task's required arguments.
             extra_data_to_post (dict, optional): Extra key-value pairs
                 to add to the request data. This is useful for
                 subclasses which require extra parameters.
