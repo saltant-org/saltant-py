@@ -20,7 +20,7 @@ From source
 
 To install from source, first clone the saltant-py repository with ::
 
-    $ git clone https://github.com/mwiens91/saltant-py.git
+    $ git clone https://github.com/saltant-org/saltant-py.git
 
 Move into ``saltant-py`` directory ::
 

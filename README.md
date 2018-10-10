@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.com/mwiens91/saltant-py.svg?branch=master)](https://travis-ci.com/mwiens91/saltant-py)
-[![codecov](https://codecov.io/gh/mwiens91/saltant-py/branch/master/graph/badge.svg)](https://codecov.io/gh/mwiens91/saltant-py)
+[![Build Status](https://travis-ci.com/saltant-org/saltant-py.svg?branch=master)](https://travis-ci.com/saltant-org/saltant-py)
+[![codecov](https://codecov.io/gh/saltant-org/saltant-py/branch/master/graph/badge.svg)](https://codecov.io/gh/saltant-org/saltant-py)
 [![Documentation Status](https://readthedocs.org/projects/saltant-py/badge/?version=latest)](https://saltant-py.readthedocs.io/en/latest/?badge=latest)
 [![PyPI](https://img.shields.io/pypi/v/saltant-py.svg)](https://pypi.org/project/saltant-py/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/saltant-py.svg)](https://pypi.org/project/saltant-py/)
@@ -7,10 +7,10 @@
 # saltant SDK for Python
 
 saltant-py is a Python SDK for
-[saltant](https://github.com/mwiens91/saltant). It lets you perform any
+[saltant](https://github.com/saltant-org/saltant). It lets you perform any
 action possible on the saltant API (some much more conveniently) within
 the comforts (hopefully) of Python. As a refresher, you might want to
-look at [saltant's API reference](https://mwiens91.github.io/saltant/)
+look at [saltant's API reference](https://saltant-org.github.io/saltant/)
 to see what actions are possible.
 
 The documentation for saltant-py is fairly comprehensive, and can be
@@ -82,4 +82,4 @@ And much more! (See the docs for more details.)
 
 ## See also
 
-[saltant-cli](https://github.com/mwiens91/saltant-cli/), a saltant CLI.
+[saltant-cli](https://github.com/saltant-org/saltant-cli/), a saltant CLI.

@@ -67,7 +67,7 @@ class ModelManager(object):
                      'user__in': [1, 2, 3, 4],}
 
                 See saltant's API reference at
-                https://mwiens91.github.io/saltant/ for each model's
+                https://saltant-org.github.io/saltant/ for each model's
                 available filters.
 
         Returns:
