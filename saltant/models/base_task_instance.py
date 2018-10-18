@@ -19,8 +19,8 @@ class BaseTaskInstance(Model):
     """Base model for a task instance.
 
     Attributes:
-        name (str): The name of the task instance.
         uuid (str): The UUID of the task instance.
+        name (str): The name of the task instance.
         state (str): The state of the task instance.
         user (str): The username of the user who started the task.
         task_queue (int): The ID of the task queue the instance is
@@ -41,6 +41,7 @@ class BaseTaskInstance(Model):
     def __init__(
         self,
         uuid,
+        name,
         state,
         user,
         task_queue,
@@ -49,12 +50,12 @@ class BaseTaskInstance(Model):
         datetime_finished,
         arguments,
         manager,
-        name="",
     ):
         """Initialize a task instance.
 
         Args:
             uuid (str): The UUID of the task instance.
+            name (str): The name of the task instance.
             state (str): The state of the task instance.
             user (str): The username of the user who started the task.
             task_queue (int): The ID of the task queue the instance is
@@ -69,8 +70,6 @@ class BaseTaskInstance(Model):
             manager (:class:`saltant.models.base_task_instance.BaseTaskInstanceManager`):
                 The task instance manager which spawned this task
                 instance.
-            name (str, optional): The name of the task instance.
-                Defaults to an empty string.
         """
         # Call the parent constructor
         super(BaseTaskInstance, self).__init__(manager)
