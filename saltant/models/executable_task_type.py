@@ -3,10 +3,7 @@
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-from .base_task_type import (
-    BaseTaskType,
-    BaseTaskTypeManager,
-)
+from .base_task_type import BaseTaskType, BaseTaskTypeManager
 
 
 class ExecutableTaskType(BaseTaskType):
@@ -28,6 +25,7 @@ class ExecutableTaskType(BaseTaskType):
         manager (:class:`saltant.models.executable_task_type.ExecutableTaskTypeManager`):
             The task type manager which spawned this task type instance.
     """
+
     pass
 
 
@@ -42,6 +40,7 @@ class ExecutableTaskTypeManager(BaseTaskTypeManager):
         model (:class:`saltant.models.executable_task_type.ExecutableTaskType`):
             The model of the task instance being used.
     """
-    list_url = 'executabletasktypes/'
-    detail_url = 'executabletasktypes/{id}/'
+
+    list_url = "executabletasktypes/"
+    detail_url = "executabletasktypes/{id}/"
     model = ExecutableTaskType

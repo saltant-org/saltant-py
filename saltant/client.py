@@ -8,32 +8,16 @@ from __future__ import print_function
 import functools
 import os
 import requests
-from saltant.constants import (
-    DEFAULT_TIMEOUT_SECONDS,
-    HTTP_200_OK,
-)
-from saltant.exceptions import (
-    AuthenticationError,
-    BadEnvironmentError,
-)
-from saltant.models.container_task_instance import (
-    ContainerTaskInstanceManager,
-)
-from saltant.models.container_task_type import (
-    ContainerTaskTypeManager,
-)
+from saltant.constants import DEFAULT_TIMEOUT_SECONDS, HTTP_200_OK
+from saltant.exceptions import AuthenticationError, BadEnvironmentError
+from saltant.models.container_task_instance import ContainerTaskInstanceManager
+from saltant.models.container_task_type import ContainerTaskTypeManager
 from saltant.models.executable_task_instance import (
     ExecutableTaskInstanceManager,
 )
-from saltant.models.executable_task_type import (
-    ExecutableTaskTypeManager,
-)
-from saltant.models.task_queue import (
-    TaskQueueManager,
-)
-from saltant.models.user import (
-    UserManager,
-)
+from saltant.models.executable_task_type import ExecutableTaskTypeManager
+from saltant.models.task_queue import TaskQueueManager
+from saltant.models.user import UserManager
 
 
 class Client:
@@ -67,12 +51,14 @@ class Client:
         users (:class:`saltant.models.user.UserManager`):
             A manager for performing actions related to users.
     """
+
     def __init__(
-            self,
-            base_api_url,
-            auth_token,
-            default_timeout=DEFAULT_TIMEOUT_SECONDS,
-            test_if_authenticated=True):
+        self,
+        base_api_url,
+        auth_token,
+        default_timeout=DEFAULT_TIMEOUT_SECONDS,
+        test_if_authenticated=True,
+    ):
         """Initialize the saltant API client.
 
         Args:
@@ -92,8 +78,7 @@ class Client:
 
         # Start a requests session
         self.session = requests.Session()
-        self.session.headers.update(
-            {'Authorization': 'Token ' + auth_token})
+        self.session.headers.update({"Authorization": "Token " + auth_token})
 
         # Test that we're authorized
         if test_if_authenticated:
@@ -101,15 +86,17 @@ class Client:
 
         # Record the default timeout we want
         self.session.request = functools.partial(
-            self.session.request,
-            timeout=default_timeout)
+            self.session.request, timeout=default_timeout
+        )
 
         # Add in model managers
-        self.container_task_instances = (
-            ContainerTaskInstanceManager(_client=self))
+        self.container_task_instances = ContainerTaskInstanceManager(
+            _client=self
+        )
         self.container_task_types = ContainerTaskTypeManager(_client=self)
-        self.executable_task_instances = (
-            ExecutableTaskInstanceManager(_client=self))
+        self.executable_task_instances = ExecutableTaskInstanceManager(
+            _client=self
+        )
         self.executable_task_types = ExecutableTaskTypeManager(_client=self)
         self.task_queues = TaskQueueManager(_client=self)
         self.users = UserManager(_client=self)
@@ -125,12 +112,12 @@ class Client:
             :class:`saltant.exceptions.AuthenticationError`: The
                 authentication provided was invalid.
         """
-        response = self.session.get(self.base_api_url + 'users/')
+        response = self.session.get(self.base_api_url + "users/")
 
         try:
             assert response.status_code == HTTP_200_OK
         except AssertionError:
-            raise AuthenticationError('Authentication invalid!')
+            raise AuthenticationError("Authentication invalid!")
 
     @classmethod
     def from_env(cls, default_timeout=DEFAULT_TIMEOUT_SECONDS):
@@ -169,13 +156,13 @@ class Client:
         """
         # Get variables from environment
         try:
-            base_api_url = os.environ['SALTANT_API_URL']
+            base_api_url = os.environ["SALTANT_API_URL"]
         except KeyError:
             raise BadEnvironmentError("SALTANT_API_URL not defined!")
 
         try:
             # Try to get an auth token
-            auth_token = os.environ['SALTANT_AUTH_TOKEN']
+            auth_token = os.environ["SALTANT_AUTH_TOKEN"]
         except KeyError:
             raise BadEnvironmentError("SALTANT_AUTH_TOKEN not defined!")
 
@@ -183,7 +170,8 @@ class Client:
         return cls(
             base_api_url=base_api_url,
             auth_token=auth_token,
-            default_timeout=default_timeout,)
+            default_timeout=default_timeout,
+        )
 
 
 # Allow convenient import access to environment-configured client

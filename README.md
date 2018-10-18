@@ -3,6 +3,8 @@
 [![Documentation Status](https://readthedocs.org/projects/saltant-py/badge/?version=latest)](https://saltant-py.readthedocs.io/en/latest/?badge=latest)
 [![PyPI](https://img.shields.io/pypi/v/saltant-py.svg)](https://pypi.org/project/saltant-py/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/saltant-py.svg)](https://pypi.org/project/saltant-py/)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
+
 
 # saltant SDK for Python
 

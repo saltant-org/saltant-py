@@ -4,9 +4,8 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from saltant.exceptions import BadHttpRequestError
-from saltant.constants import (
-    HTTP_200_OK,
-)
+from saltant.constants import HTTP_200_OK
+
 
 class Model(object):
     """Base class for representing a model.
@@ -15,6 +14,7 @@ class Model(object):
         manager (:class:`saltant.models.resource.Manager`):
             The manager which spawned this model instance.
     """
+
     def __init__(self, manager):
         """Initialize the model.
 
@@ -36,6 +36,7 @@ class ModelManager(object):
         model (:class:`saltant.models.resource.Model`): The model
             being used.
     """
+
     list_url = "NotImplemented"
     detail_url = "NotImplemented"
     model = Model
@@ -83,37 +84,35 @@ class ModelManager(object):
         if not filters:
             filters = {}
 
-        if 'page' not in filters:
-            filters['page'] = 1
+        if "page" not in filters:
+            filters["page"] = 1
 
-        if 'page_size' not in filters:
+        if "page_size" not in filters:
             # The below "magic number" is 2^63 - 1, which is the largest
             # number you can hold in a 64 bit integer. The main point
             # here is that we want to get everything in one page (unless
             # otherwise specified, of course).
-            filters['page_size'] = 9223372036854775807
+            filters["page_size"] = 9223372036854775807
 
         # Form the request URL - first add in the query filters
-        query_filter_sub_url = ''
+        query_filter_sub_url = ""
 
         for idx, filter_param in enumerate(filters):
             # Prepend '?' or '&'
             if idx == 0:
-                query_filter_sub_url += '?'
+                query_filter_sub_url += "?"
             else:
-                query_filter_sub_url += '&'
+                query_filter_sub_url += "&"
 
             # Add in the query filter
-            query_filter_sub_url += '{param}={val}'.format(
-                param=filter_param,
-                val=filters[filter_param],
+            query_filter_sub_url += "{param}={val}".format(
+                param=filter_param, val=filters[filter_param]
             )
 
         # Stitch together all sub-urls
         request_url = (
-            self._client.base_api_url
-            + self.list_url
-            + query_filter_sub_url)
+            self._client.base_api_url + self.list_url + query_filter_sub_url
+        )
 
         # Make the request
         response = self._client.session.get(request_url)
@@ -123,7 +122,8 @@ class ModelManager(object):
             response_text=response.text,
             request_url=request_url,
             status_code=response.status_code,
-            expected_status_code=HTTP_200_OK,)
+            expected_status_code=HTTP_200_OK,
+        )
 
         # Return a list of model instances
         return self.response_data_to_model_instances_list(response.json())
@@ -141,9 +141,7 @@ class ModelManager(object):
                 instance representing the resource requested.
         """
         # Get the object
-        request_url = (
-            self._client.base_api_url
-            + self.detail_url.format(id=id))
+        request_url = self._client.base_api_url + self.detail_url.format(id=id)
 
         response = self._client.session.get(request_url)
 
@@ -152,7 +150,8 @@ class ModelManager(object):
             response_text=response.text,
             request_url=request_url,
             status_code=response.status_code,
-            expected_status_code=HTTP_200_OK,)
+            expected_status_code=HTTP_200_OK,
+        )
 
         # Return a model instance
         return self.response_data_to_model_instance(response.json())
@@ -170,7 +169,7 @@ class ModelManager(object):
                 request's response data.
         """
         # Add in this manager to the data
-        response_data['manager'] = self
+        response_data["manager"] = self
 
         # Instantiate a model
         return self.model(**response_data)
@@ -186,15 +185,15 @@ class ModelManager(object):
                 A list of :class:`saltant.models.resource.Model`
                 subclass instances.
         """
-        return [self.response_data_to_model_instance(subdata)
-                for subdata in response_data['results']]
+        return [
+            self.response_data_to_model_instance(subdata)
+            for subdata in response_data["results"]
+        ]
 
     @staticmethod
     def validate_request_success(
-            response_text,
-            request_url,
-            status_code,
-            expected_status_code,):
+        response_text, request_url, status_code, expected_status_code
+    ):
         """Validates that a request was successful.
 
         Args:
@@ -211,10 +210,11 @@ class ModelManager(object):
         try:
             assert status_code == expected_status_code
         except AssertionError:
-            msg = ("Request to {url} failed with status {status_code}:\n"
-                   "The reponse from the request was as follows:\n\n"
-                   "{content}").format(
-                       url=request_url,
-                       status_code=status_code,
-                       content=response_text,)
+            msg = (
+                "Request to {url} failed with status {status_code}:\n"
+                "The reponse from the request was as follows:\n\n"
+                "{content}"
+            ).format(
+                url=request_url, status_code=status_code, content=response_text
+            )
             raise BadHttpRequestError(msg)

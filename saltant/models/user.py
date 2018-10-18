@@ -15,6 +15,7 @@ class User(Model):
         manager (:class:`saltant.models.user.UserManager`):
             The manager which spawned this user instance.
     """
+
     def __init__(self, username, email, manager):
         """Initialize a user.
 
@@ -61,8 +62,9 @@ class UserManager(ModelManager):
         model (:class:`saltant.models.user.User`): The model of the task
             queue being used.
     """
-    list_url = 'users/'
-    detail_url = 'users/{id}/'
+
+    list_url = "users/"
+    detail_url = "users/{id}/"
     model = User
 
     def get(self, username):

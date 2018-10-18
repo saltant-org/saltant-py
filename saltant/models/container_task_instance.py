@@ -3,10 +3,7 @@
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-from .base_task_instance import (
-    BaseTaskInstance,
-    BaseTaskInstanceManager,
-)
+from .base_task_instance import BaseTaskInstance, BaseTaskInstanceManager
 
 
 class ContainerTaskInstance(BaseTaskInstance):
@@ -29,6 +26,7 @@ class ContainerTaskInstance(BaseTaskInstance):
             The task instance manager which spawned this task instance
             ... instance.
     """
+
     pass
 
 
@@ -46,8 +44,9 @@ class ContainerTaskInstanceManager(BaseTaskInstanceManager):
         model (:class:`saltant.models.container_task_instance.ContainerTaskInstance`):
             The model of the task instance being used.
     """
-    list_url = 'containertaskinstances/'
-    detail_url = 'containertaskinstances/{id}/'
-    clone_url = 'containertaskinstances/{id}/clone/'
-    terminate_url = 'containertaskinstances/{id}/terminate/'
+
+    list_url = "containertaskinstances/"
+    detail_url = "containertaskinstances/{id}/"
+    clone_url = "containertaskinstances/{id}/clone/"
+    terminate_url = "containertaskinstances/{id}/terminate/"
     model = ContainerTaskInstance

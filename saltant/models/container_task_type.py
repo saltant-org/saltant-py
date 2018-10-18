@@ -3,10 +3,7 @@
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-from .base_task_type import (
-    BaseTaskType,
-    BaseTaskTypeManager,
-)
+from .base_task_type import BaseTaskType, BaseTaskTypeManager
 
 
 class ContainerTaskType(BaseTaskType):
@@ -37,22 +34,24 @@ class ContainerTaskType(BaseTaskType):
         manager (:class:`saltant.models.container_task_type.ContainerTaskTypeManager`):
             The task type manager which spawned this task type.
     """
+
     def __init__(
-            self,
-            id,
-            name,
-            description,
-            user,
-            datetime_created,
-            command_to_run,
-            environment_variables,
-            required_arguments,
-            required_arguments_default_values,
-            logs_path,
-            results_path,
-            container_image,
-            container_type,
-            manager,):
+        self,
+        id,
+        name,
+        description,
+        user,
+        datetime_created,
+        command_to_run,
+        environment_variables,
+        required_arguments,
+        required_arguments_default_values,
+        logs_path,
+        results_path,
+        container_image,
+        container_type,
+        manager,
+    ):
         """Initialize a container task type.
 
         Args:
@@ -115,7 +114,8 @@ class ContainerTaskType(BaseTaskType):
             environment_variables=self.environment_variables,
             required_arguments=self.required_arguments,
             required_arguments_default_values=(
-                self.required_arguments_default_values),
+                self.required_arguments_default_values
+            ),
             logs_path=self.logs_path,
             results_path=self.results_path,
             container_image=self.container_image,
@@ -134,23 +134,25 @@ class ContainerTaskTypeManager(BaseTaskTypeManager):
         model (:class:`saltant.models.container_task_type.ContainerTaskType`):
             The model of the task instance being used.
     """
-    list_url = 'containertasktypes/'
-    detail_url = 'containertasktypes/{id}/'
+
+    list_url = "containertasktypes/"
+    detail_url = "containertasktypes/{id}/"
     model = ContainerTaskType
 
     def create(
-            self,
-            name,
-            command_to_run,
-            container_image,
-            container_type,
-            description="",
-            logs_path="",
-            results_path="",
-            environment_variables=None,
-            required_arguments=None,
-            required_arguments_default_values=None,
-            extra_data_to_post=None,):
+        self,
+        name,
+        command_to_run,
+        container_image,
+        container_type,
+        description="",
+        logs_path="",
+        results_path="",
+        environment_variables=None,
+        required_arguments=None,
+        required_arguments_default_values=None,
+        extra_data_to_post=None,
+    ):
         """Create a container task type.
 
         Args:
@@ -184,12 +186,14 @@ class ContainerTaskTypeManager(BaseTaskTypeManager):
         if extra_data_to_post is None:
             extra_data_to_post = {}
 
-        extra_data_to_post.update({
-            'container_image': container_image,
-            'container_type': container_type,
-            'logs_path': logs_path,
-            'results_path': results_path,
-        })
+        extra_data_to_post.update(
+            {
+                "container_image": container_image,
+                "container_type": container_type,
+                "logs_path": logs_path,
+                "results_path": results_path,
+            }
+        )
 
         # Call the parent create function
         return super(ContainerTaskTypeManager, self).create(
@@ -199,21 +203,24 @@ class ContainerTaskTypeManager(BaseTaskTypeManager):
             environment_variables=environment_variables,
             required_arguments=required_arguments,
             required_arguments_default_values=required_arguments_default_values,
-            extra_data_to_post=extra_data_to_post,)
+            extra_data_to_post=extra_data_to_post,
+        )
 
-    def put(self,
-            id,
-            name,
-            description,
-            command_to_run,
-            environment_variables,
-            required_arguments,
-            required_arguments_default_values,
-            logs_path,
-            results_path,
-            container_image,
-            container_type,
-            extra_data_to_put=None):
+    def put(
+        self,
+        id,
+        name,
+        description,
+        command_to_run,
+        environment_variables,
+        required_arguments,
+        required_arguments_default_values,
+        logs_path,
+        results_path,
+        container_image,
+        container_type,
+        extra_data_to_put=None,
+    ):
         """Updates a task type on the saltant server.
 
         Args:
@@ -242,12 +249,14 @@ class ContainerTaskTypeManager(BaseTaskTypeManager):
         if extra_data_to_put is None:
             extra_data_to_put = {}
 
-        extra_data_to_put.update({
-            'logs_path': logs_path,
-            'results_path': results_path,
-            'container_image': container_image,
-            'container_type': container_type,
-        })
+        extra_data_to_put.update(
+            {
+                "logs_path": logs_path,
+                "results_path": results_path,
+                "container_image": container_image,
+                "container_type": container_type,
+            }
+        )
 
         # Call the parent create function
         return super(ContainerTaskTypeManager, self).put(
@@ -258,6 +267,7 @@ class ContainerTaskTypeManager(BaseTaskTypeManager):
             environment_variables=environment_variables,
             required_arguments=required_arguments,
             required_arguments_default_values=(
-                required_arguments_default_values),
+                required_arguments_default_values
+            ),
             extra_data_to_put=extra_data_to_put,
         )

@@ -5,10 +5,7 @@ from __future__ import division
 from __future__ import print_function
 import json
 import dateutil.parser
-from saltant.constants import (
-    HTTP_200_OK,
-    HTTP_201_CREATED,
-)
+from saltant.constants import HTTP_200_OK, HTTP_201_CREATED
 from .resource import Model, ModelManager
 
 
@@ -31,18 +28,20 @@ class BaseTaskType(Model):
         manager (:class:`saltant.models.base_task_type.BaseTaskTypeManager`):
             The task type manager which spawned this task type.
     """
+
     def __init__(
-            self,
-            id,
-            name,
-            description,
-            user,
-            datetime_created,
-            command_to_run,
-            environment_variables,
-            required_arguments,
-            required_arguments_default_values,
-            manager,):
+        self,
+        id,
+        name,
+        description,
+        user,
+        datetime_created,
+        command_to_run,
+        environment_variables,
+        required_arguments,
+        required_arguments_default_values,
+        manager,
+    ):
         """Initialize a task type.
 
         Args:
@@ -73,7 +72,8 @@ class BaseTaskType(Model):
         self.environment_variables = environment_variables
         self.required_arguments = required_arguments
         self.required_arguments_default_values = (
-            required_arguments_default_values)
+            required_arguments_default_values
+        )
 
     def __str__(self):
         """String representation of the task type."""
@@ -109,7 +109,8 @@ class BaseTaskType(Model):
             environment_variables=self.environment_variables,
             required_arguments=self.required_arguments,
             required_arguments_default_values=(
-                self.required_arguments_default_values),
+                self.required_arguments_default_values
+            ),
         )
 
 
@@ -124,6 +125,7 @@ class BaseTaskTypeManager(ModelManager):
         model (:class:`saltant.models.resource.Model`): The model of the
             task type being used.
     """
+
     model = BaseTaskType
 
     def get(self, id=None, name=None):
@@ -146,8 +148,7 @@ class BaseTaskTypeManager(ModelManager):
         """
         # Validate arguments - use an xor
         if not ((id is None) ^ (name is None)):
-            raise ValueError(
-                "Either id or name must be set (but not both!)")
+            raise ValueError("Either id or name must be set (but not both!)")
 
         # If it's just ID provided, call the parent function
         if id is not None:
@@ -157,14 +158,15 @@ class BaseTaskTypeManager(ModelManager):
         return self.list(filters={"name": name})[0]
 
     def create(
-            self,
-            name,
-            command_to_run,
-            description="",
-            environment_variables=None,
-            required_arguments=None,
-            required_arguments_default_values=None,
-            extra_data_to_post=None,):
+        self,
+        name,
+        command_to_run,
+        description="",
+        environment_variables=None,
+        required_arguments=None,
+        required_arguments_default_values=None,
+        extra_data_to_post=None,
+    ):
         """Create a task type.
 
         Args:
@@ -204,8 +206,9 @@ class BaseTaskTypeManager(ModelManager):
             "command_to_run": command_to_run,
             "environment_variables": json.dumps(environment_variables),
             "required_arguments": json.dumps(required_arguments),
-            "required_arguments_default_values":
-                json.dumps(required_arguments_default_values),
+            "required_arguments_default_values": json.dumps(
+                required_arguments_default_values
+            ),
         }
 
         # Add in extra data if any was passed in
@@ -219,20 +222,23 @@ class BaseTaskTypeManager(ModelManager):
             response_text=response.text,
             request_url=request_url,
             status_code=response.status_code,
-            expected_status_code=HTTP_201_CREATED,)
+            expected_status_code=HTTP_201_CREATED,
+        )
 
         # Return a model instance representing the task type
         return self.response_data_to_model_instance(response.json())
 
-    def put(self,
-            id,
-            name,
-            description,
-            command_to_run,
-            environment_variables,
-            required_arguments,
-            required_arguments_default_values,
-            extra_data_to_put=None):
+    def put(
+        self,
+        id,
+        name,
+        description,
+        command_to_run,
+        environment_variables,
+        required_arguments,
+        required_arguments_default_values,
+        extra_data_to_put=None,
+    ):
         """Updates a task type on the saltant server.
 
         Args:
@@ -256,9 +262,7 @@ class BaseTaskTypeManager(ModelManager):
                 updated.
         """
         # Update the object
-        request_url = (
-            self._client.base_api_url
-            + self.detail_url.format(id=id))
+        request_url = self._client.base_api_url + self.detail_url.format(id=id)
         data_to_put = {
             "name": name,
             "description": description,
@@ -266,7 +270,8 @@ class BaseTaskTypeManager(ModelManager):
             "environment_variables": json.dumps(environment_variables),
             "required_arguments": json.dumps(required_arguments),
             "required_arguments_default_values": json.dumps(
-                required_arguments_default_values),
+                required_arguments_default_values
+            ),
         }
 
         # Add in extra data if any was passed in
@@ -280,7 +285,8 @@ class BaseTaskTypeManager(ModelManager):
             response_text=response.text,
             request_url=request_url,
             status_code=response.status_code,
-            expected_status_code=HTTP_200_OK,)
+            expected_status_code=HTTP_200_OK,
+        )
 
         # Return a model instance representing the task instance
         return self.response_data_to_model_instance(response.json())
@@ -297,10 +303,11 @@ class BaseTaskTypeManager(ModelManager):
                 reponse data.
         """
         # Coerce datetime strings into datetime objects
-        response_data['datetime_created'] = (
-            dateutil.parser.parse(response_data['datetime_created']))
+        response_data["datetime_created"] = dateutil.parser.parse(
+            response_data["datetime_created"]
+        )
 
         # Instantiate a model for the task instance
         return super(
-            BaseTaskTypeManager,
-            self).response_data_to_model_instance(response_data)
+            BaseTaskTypeManager, self
+        ).response_data_to_model_instance(response_data)

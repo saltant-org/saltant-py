@@ -16,14 +16,11 @@ HTTP_202_ACCEPTED = 202
 
 
 # Options for the task instance's state field
-CREATED = 'created'
-PUBLISHED = 'published'
-RUNNING = 'running'
-SUCCESSFUL = 'successful'
-FAILED = 'failed'
-TERMINATED = 'terminated'
+CREATED = "created"
+PUBLISHED = "published"
+RUNNING = "running"
+SUCCESSFUL = "successful"
+FAILED = "failed"
+TERMINATED = "terminated"
 
-TASK_INSTANCE_FINISH_STATUSES = (
-    SUCCESSFUL,
-    FAILED,
-    TERMINATED,)
+TASK_INSTANCE_FINISH_STATUSES = (SUCCESSFUL, FAILED, TERMINATED)

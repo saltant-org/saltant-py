@@ -3,10 +3,7 @@
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-from saltant.constants import (
-    HTTP_200_OK,
-    HTTP_201_CREATED,
-)
+from saltant.constants import HTTP_200_OK, HTTP_201_CREATED
 from .resource import Model, ModelManager
 
 
@@ -24,14 +21,8 @@ class TaskQueue(Model):
         manager (:class:`saltant.models.task_queue.TaskQueueManager`):
             The task queue manager which spawned this task queue.
     """
-    def __init__(self,
-                 id,
-                 user,
-                 name,
-                 description,
-                 private,
-                 active,
-                 manager,):
+
+    def __init__(self, id, user, name, description, private, active, manager):
         """Initialize a task queue.
 
         Args:
@@ -88,7 +79,8 @@ class TaskQueue(Model):
             name=self.name,
             description=self.description,
             private=self.private,
-            active=self.active)
+            active=self.active,
+        )
 
 
 class TaskQueueManager(ModelManager):
@@ -102,8 +94,9 @@ class TaskQueueManager(ModelManager):
         model (:class:`saltant.models.task_queue.TaskQueue`): The model
             of the task queue being used.
     """
-    list_url = 'taskqueues/'
-    detail_url = 'taskqueues/{id}/'
+
+    list_url = "taskqueues/"
+    detail_url = "taskqueues/{id}/"
     model = TaskQueue
 
     def get(self, id=None, name=None):
@@ -126,8 +119,7 @@ class TaskQueueManager(ModelManager):
         """
         # Validate arguments - use an xor
         if not ((id is None) ^ (name is None)):
-            raise ValueError(
-                "Either id or name must be set (but not both!)")
+            raise ValueError("Either id or name must be set (but not both!)")
 
         # If it's just ID provided, call the parent function
         if id is not None:
@@ -136,11 +128,7 @@ class TaskQueueManager(ModelManager):
         # Try getting the task queue by name
         return self.list(filters={"name": name})[0]
 
-    def create(self,
-               name,
-               description="",
-               private=False,
-               active=True,):
+    def create(self, name, description="", private=False, active=True):
         """Create a task queue.
 
         Args:
@@ -162,7 +150,8 @@ class TaskQueueManager(ModelManager):
             "name": name,
             "description": description,
             "private": private,
-            "active": active,}
+            "active": active,
+        }
 
         response = self._client.session.post(request_url, data=data_to_post)
 
@@ -171,7 +160,8 @@ class TaskQueueManager(ModelManager):
             response_text=response.text,
             request_url=request_url,
             status_code=response.status_code,
-            expected_status_code=HTTP_201_CREATED,)
+            expected_status_code=HTTP_201_CREATED,
+        )
 
         # Return a model instance representing the task instance
         return self.response_data_to_model_instance(response.json())
@@ -194,14 +184,13 @@ class TaskQueueManager(ModelManager):
                 just updated.
         """
         # Update the object
-        request_url = (
-            self._client.base_api_url
-            + self.detail_url.format(id=id))
+        request_url = self._client.base_api_url + self.detail_url.format(id=id)
         data_to_put = {
             "name": name,
             "description": description,
             "private": private,
-            "active": active,}
+            "active": active,
+        }
 
         response = self._client.session.put(request_url, data=data_to_put)
 
@@ -210,7 +199,8 @@ class TaskQueueManager(ModelManager):
             response_text=response.text,
             request_url=request_url,
             status_code=response.status_code,
-            expected_status_code=HTTP_200_OK,)
+            expected_status_code=HTTP_200_OK,
+        )
 
         # Return a model instance representing the task instance
         return self.response_data_to_model_instance(response.json())

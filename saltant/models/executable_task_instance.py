@@ -3,10 +3,7 @@
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-from .base_task_instance import (
-    BaseTaskInstance,
-    BaseTaskInstanceManager,
-)
+from .base_task_instance import BaseTaskInstance, BaseTaskInstanceManager
 
 
 class ExecutableTaskInstance(BaseTaskInstance):
@@ -28,6 +25,7 @@ class ExecutableTaskInstance(BaseTaskInstance):
         manager (:class:`saltant.models.executable_task_instance.ExecutableTaskInstanceManager`):
             The task instance manager which spawned this task instance.
     """
+
     pass
 
 
@@ -45,8 +43,9 @@ class ExecutableTaskInstanceManager(BaseTaskInstanceManager):
         model (:class:`saltant.models.executable_task_instance.ExecutableTaskInstance`):
             The model of the task instance being used.
     """
-    list_url = 'executabletaskinstances/'
-    detail_url = 'executabletaskinstances/{id}/'
-    clone_url = 'executabletaskinstances/{id}/clone/'
-    terminate_url = 'executabletaskinstances/{id}/terminate/'
+
+    list_url = "executabletaskinstances/"
+    detail_url = "executabletaskinstances/{id}/"
+    clone_url = "executabletaskinstances/{id}/clone/"
+    terminate_url = "executabletaskinstances/{id}/terminate/"
     model = ExecutableTaskInstance

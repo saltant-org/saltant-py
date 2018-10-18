@@ -37,18 +37,20 @@ class BaseTaskInstance(Model):
             wait_until_finished methods to the task instance model
             itself (such convenience!).
     """
+
     def __init__(
-            self,
-            uuid,
-            state,
-            user,
-            task_queue,
-            task_type,
-            datetime_created,
-            datetime_finished,
-            arguments,
-            manager,
-            name="",):
+        self,
+        uuid,
+        state,
+        user,
+        task_queue,
+        task_type,
+        datetime_created,
+        datetime_finished,
+        arguments,
+        manager,
+        name="",
+    ):
         """Initialize a task instance.
 
         Args:
@@ -122,8 +124,8 @@ class BaseTaskInstance(Model):
         return self.manager.terminate(self.uuid)
 
     def wait_until_finished(
-            self,
-            refresh_period=DEFAULT_TASK_INSTANCE_WAIT_REFRESH_PERIOD):
+        self, refresh_period=DEFAULT_TASK_INSTANCE_WAIT_REFRESH_PERIOD
+    ):
         """Wait until a task instance with the given UUID is finished.
 
         Args:
@@ -136,8 +138,8 @@ class BaseTaskInstance(Model):
                 This task instance model after it finished.
         """
         return self.manager.wait_until_finished(
-            uuid=self.uuid,
-            refresh_period=refresh_period,)
+            uuid=self.uuid, refresh_period=refresh_period
+        )
 
 
 class BaseTaskInstanceManager(ModelManager):
@@ -154,6 +156,7 @@ class BaseTaskInstanceManager(ModelManager):
         model (:class:`saltant.models.resource.Model`): The model of the
             task instance being used.
     """
+
     clone_url = "NotImplemented"
     terminate_url = "NotImplemented"
     model = BaseTaskInstance
@@ -173,11 +176,7 @@ class BaseTaskInstanceManager(ModelManager):
         # to uuid
         return super(BaseTaskInstanceManager, self).get(id=uuid)
 
-    def create(self,
-               task_type_id,
-               task_queue_id,
-               arguments=None,
-               name="",):
+    def create(self, task_type_id, task_queue_id, arguments=None, name=""):
         """Create a task instance.
 
         Args:
@@ -205,7 +204,8 @@ class BaseTaskInstanceManager(ModelManager):
             "name": name,
             "arguments": json.dumps(arguments),
             "task_type": task_type_id,
-            "task_queue": task_queue_id,}
+            "task_queue": task_queue_id,
+        }
 
         response = self._client.session.post(request_url, data=data_to_post)
 
@@ -214,7 +214,8 @@ class BaseTaskInstanceManager(ModelManager):
             response_text=response.text,
             request_url=request_url,
             status_code=response.status_code,
-            expected_status_code=HTTP_201_CREATED,)
+            expected_status_code=HTTP_201_CREATED,
+        )
 
         # Return a model instance representing the task instance
         return self.response_data_to_model_instance(response.json())
@@ -231,9 +232,9 @@ class BaseTaskInstanceManager(ModelManager):
                 instance created due to the clone.
         """
         # Clone the object
-        request_url = (
-            self._client.base_api_url
-            + self.clone_url.format(id=uuid))
+        request_url = self._client.base_api_url + self.clone_url.format(
+            id=uuid
+        )
 
         response = self._client.session.post(request_url)
 
@@ -242,7 +243,8 @@ class BaseTaskInstanceManager(ModelManager):
             response_text=response.text,
             request_url=request_url,
             status_code=response.status_code,
-            expected_status_code=HTTP_201_CREATED,)
+            expected_status_code=HTTP_201_CREATED,
+        )
 
         # Return a model instance
         return self.response_data_to_model_instance(response.json())
@@ -275,9 +277,9 @@ class BaseTaskInstanceManager(ModelManager):
                 instance that was told to terminate.
         """
         # Clone the object
-        request_url = (
-            self._client.base_api_url
-            + self.terminate_url.format(id=uuid))
+        request_url = self._client.base_api_url + self.terminate_url.format(
+            id=uuid
+        )
 
         response = self._client.session.post(request_url)
 
@@ -286,7 +288,8 @@ class BaseTaskInstanceManager(ModelManager):
             response_text=response.text,
             request_url=request_url,
             status_code=response.status_code,
-            expected_status_code=HTTP_202_ACCEPTED,)
+            expected_status_code=HTTP_202_ACCEPTED,
+        )
 
         # Return a model instance
         return self.response_data_to_model_instance(response.json())
@@ -308,9 +311,8 @@ class BaseTaskInstanceManager(ModelManager):
         return [self.terminate(uuid) for uuid in uuids]
 
     def wait_until_finished(
-            self,
-            uuid,
-            refresh_period=DEFAULT_TASK_INSTANCE_WAIT_REFRESH_PERIOD):
+        self, uuid, refresh_period=DEFAULT_TASK_INSTANCE_WAIT_REFRESH_PERIOD
+    ):
         """Wait until a task instance with the given UUID is finished.
 
         Args:
@@ -348,14 +350,16 @@ class BaseTaskInstanceManager(ModelManager):
                 instance from the reponse data.
         """
         # Coerce datetime strings into datetime objects
-        response_data['datetime_created'] = (
-            dateutil.parser.parse(response_data['datetime_created']))
+        response_data["datetime_created"] = dateutil.parser.parse(
+            response_data["datetime_created"]
+        )
 
-        if response_data['datetime_finished']:
-            response_data['datetime_finished'] = (
-                dateutil.parser.parse(response_data['datetime_finished']))
+        if response_data["datetime_finished"]:
+            response_data["datetime_finished"] = dateutil.parser.parse(
+                response_data["datetime_finished"]
+            )
 
         # Instantiate a model for the task instance
         return super(
-            BaseTaskInstanceManager,
-            self).response_data_to_model_instance(response_data)
+            BaseTaskInstanceManager, self
+        ).response_data_to_model_instance(response_data)
