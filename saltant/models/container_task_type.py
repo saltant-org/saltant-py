@@ -124,7 +124,7 @@ class ContainerTaskType(BaseTaskType):
 
 
 class ContainerTaskTypeManager(BaseTaskTypeManager):
-    """Manager for Container task types.
+    """Manager for container task types.
 
     Attributes:
         _client (:class:`saltant.client.Client`): An authenticated
