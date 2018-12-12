@@ -17,12 +17,32 @@ class TaskQueue(Model):
         description (str): The description of the task queue.
         private (bool): A Booleon signalling whether the queue can only
             be used by its associated user.
+        runs_executable_tasks (bool): A Boolean specifying whether the
+            queue runs executable tasks.
+        runs_docker_container_tasks (bool): A Boolean specifying whether
+            the queue runs container tasks that run in Docker
+            containers.
+        runs_singularity_container_tasks (bool): A Boolean specifying
+            whether the queue runs container tasks that run in
+            Singularity containers.
         active (bool): A Booleon signalling whether the queue is active.
         manager (:class:`saltant.models.task_queue.TaskQueueManager`):
             The task queue manager which spawned this task queue.
     """
 
-    def __init__(self, id, user, name, description, private, active, manager):
+    def __init__(
+        self,
+        id,
+        user,
+        name,
+        description,
+        private,
+        runs_executable_tasks,
+        runs_docker_container_tasks,
+        runs_singularity_container_tasks,
+        active,
+        manager,
+    ):
         """Initialize a task queue.
 
         Args:
@@ -32,6 +52,14 @@ class TaskQueue(Model):
             description (str): The description of the task queue.
             private (bool): A Booleon signalling whether the queue can
                 only be used by its associated user.
+            runs_executable_tasks (bool): A Boolean specifying whether
+                the queue runs executable tasks.
+            runs_docker_container_tasks (bool): A Boolean specifying
+                whether the queue runs container tasks that run in
+                Docker containers.
+            runs_singularity_container_tasks (bool): A Boolean
+                specifying whether the queue runs container tasks that
+                run in Singularity containers.
             active (bool): A Booleon signalling whether the queue is
                 active.
             manager (:class:`saltant.models.task_queue.TaskQueueManager`):
@@ -46,6 +74,11 @@ class TaskQueue(Model):
         self.name = name
         self.description = description
         self.private = private
+        self.runs_executable_tasks = runs_executable_tasks
+        self.runs_docker_container_tasks = runs_docker_container_tasks
+        self.runs_singularity_container_tasks = (
+            runs_singularity_container_tasks
+        )
         self.active = active
 
     def __str__(self):
