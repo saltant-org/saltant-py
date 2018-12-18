@@ -155,7 +155,7 @@ class TaskQueueManager(ModelManager):
                 name were set.
         """
         # Validate arguments - use an xor
-        if not ((id is None) ^ (name is None)):
+        if not (id is None) ^ (name is None):
             raise ValueError("Either id or name must be set (but not both!)")
 
         # If it's just ID provided, call the parent function
