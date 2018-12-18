@@ -26,6 +26,7 @@ class TaskQueue(Model):
             whether the queue runs container tasks that run in
             Singularity containers.
         active (bool): A Booleon signalling whether the queue is active.
+        whitelists (list): A list of task whitelist IDs.
         manager (:class:`saltant.models.task_queue.TaskQueueManager`):
             The task queue manager which spawned this task queue.
     """
@@ -63,6 +64,7 @@ class TaskQueue(Model):
                 run in Singularity containers.
             active (bool): A Booleon signalling whether the queue is
                 active.
+            whitelists (list): A list of task whitelist IDs.
             manager (:class:`saltant.models.task_queue.TaskQueueManager`):
                 The task queue manager which spawned this task instance.
         """
@@ -81,6 +83,7 @@ class TaskQueue(Model):
             runs_singularity_container_tasks
         )
         self.active = active
+        self.whitelists = whitelists
 
     def __str__(self):
         """String representation of the task queue."""
@@ -117,6 +120,7 @@ class TaskQueue(Model):
             runs_docker_container_tasks=self.runs_docker_container_tasks,
             runs_singularity_container_tasks=self.runs_singularity_container_tasks,
             active=self.active,
+            whitelists=self.whitelists,
         )
 
 
@@ -174,6 +178,7 @@ class TaskQueueManager(ModelManager):
         runs_docker_container_tasks=True,
         runs_singularity_container_tasks=True,
         active=True,
+        whitelists=None,
     ):
         """Create a task queue.
 
@@ -193,12 +198,18 @@ class TaskQueueManager(ModelManager):
                 run in Singularity containers. Defaults to True.
             active (bool, optional): A boolean specifying whether the
                 queue is active. Default to True.
+            whitelists (list, optional): A list of task whitelist IDs.
+                Defaults to None (which gets translated to []).
 
         Returns:
             :class:`saltant.models.task_queue.TaskQueue`:
                 A task queue model instance representing the task queue
                 just created.
         """
+        # Translate whitelists None to [] if necessary
+        if whitelists is None:
+            whitelists = []
+
         # Create the object
         request_url = self._client.base_api_url + self.list_url
         data_to_post = {
@@ -209,6 +220,7 @@ class TaskQueueManager(ModelManager):
             "runs_docker_container_tasks": runs_docker_container_tasks,
             "runs_singularity_container_tasks": runs_singularity_container_tasks,
             "active": active,
+            "whitelists": whitelists,
         }
 
         response = self._client.session.post(request_url, data=data_to_post)
@@ -234,6 +246,7 @@ class TaskQueueManager(ModelManager):
         runs_docker_container_tasks,
         runs_singularity_container_tasks,
         active,
+        whitelists,
     ):
         """Updates a task queue on the saltant server.
 
@@ -253,6 +266,7 @@ class TaskQueueManager(ModelManager):
                 run in Singularity containers.
             active (bool): A Booleon signalling whether the queue is
                 active.
+            whitelists (list): A list of task whitelist IDs.
 
         Returns:
             :class:`saltant.models.task_queue.TaskQueue`:
@@ -269,6 +283,7 @@ class TaskQueueManager(ModelManager):
             "runs_docker_container_tasks": runs_docker_container_tasks,
             "runs_singularity_container_tasks": runs_singularity_container_tasks,
             "active": active,
+            "whitelists": whitelists,
         }
 
         response = self._client.session.put(request_url, data=data_to_put)
