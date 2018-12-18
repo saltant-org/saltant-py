@@ -224,7 +224,17 @@ class TaskQueueManager(ModelManager):
         # Return a model instance representing the task instance
         return self.response_data_to_model_instance(response.json())
 
-    def put(self, id, name, description, private, active):
+    def put(
+        self,
+        id,
+        name,
+        description,
+        private,
+        runs_executable_tasks,
+        runs_docker_container_tasks,
+        runs_singularity_container_tasks,
+        active,
+    ):
         """Updates a task queue on the saltant server.
 
         Args:
