@@ -41,6 +41,7 @@ class TaskQueue(Model):
         runs_docker_container_tasks,
         runs_singularity_container_tasks,
         active,
+        whitelists,
         manager,
     ):
         """Initialize a task queue.
