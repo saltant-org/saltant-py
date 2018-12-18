@@ -112,6 +112,9 @@ class TaskQueue(Model):
             name=self.name,
             description=self.description,
             private=self.private,
+            runs_executable_tasks=self.runs_executable_tasks,
+            runs_docker_container_tasks=self.runs_docker_container_tasks,
+            runs_singularity_container_tasks=self.runs_singularity_container_tasks,
             active=self.active,
         )
 
@@ -161,7 +164,16 @@ class TaskQueueManager(ModelManager):
         # Try getting the task queue by name
         return self.list(filters={"name": name})[0]
 
-    def create(self, name, description="", private=False, active=True):
+    def create(
+        self,
+        name,
+        description="",
+        private=False,
+        runs_executable_tasks=True,
+        runs_docker_container_tasks=True,
+        runs_singularity_container_tasks=True,
+        active=True,
+    ):
         """Create a task queue.
 
         Args:
@@ -169,6 +181,15 @@ class TaskQueueManager(ModelManager):
             description (str, optional): A description of the task queue.
             private (bool, optional): A boolean specifying whether the
                 queue is exclusive to its creator. Defaults to False.
+            runs_executable_tasks (bool, optional): A Boolean specifying
+                whether the queue runs executable tasks. Defaults to
+                True.
+            runs_docker_container_tasks (bool, optional): A Boolean
+                specifying whether the queue runs container tasks that
+                run in Docker containers. Defaults to True.
+            runs_singularity_container_tasks (bool, optional): A Boolean
+                specifying whether the queue runs container tasks that
+                run in Singularity containers. Defaults to True.
             active (bool, optional): A boolean specifying whether the
                 queue is active. Default to True.
 
@@ -183,6 +204,9 @@ class TaskQueueManager(ModelManager):
             "name": name,
             "description": description,
             "private": private,
+            "runs_executable_tasks": runs_executable_tasks,
+            "runs_docker_container_tasks": runs_docker_container_tasks,
+            "runs_singularity_container_tasks": runs_singularity_container_tasks,
             "active": active,
         }
 
@@ -208,6 +232,14 @@ class TaskQueueManager(ModelManager):
             description (str): The description of the task queue.
             private (bool): A Booleon signalling whether the queue can
                 only be used by its associated user.
+            runs_executable_tasks (bool): A Boolean specifying whether
+                the queue runs executable tasks.
+            runs_docker_container_tasks (bool): A Boolean specifying
+                whether the queue runs container tasks that run in
+                Docker containers.
+            runs_singularity_container_tasks (bool): A Boolean
+                specifying whether the queue runs container tasks that
+                run in Singularity containers.
             active (bool): A Booleon signalling whether the queue is
                 active.
 
@@ -222,6 +254,9 @@ class TaskQueueManager(ModelManager):
             "name": name,
             "description": description,
             "private": private,
+            "runs_executable_tasks": runs_executable_tasks,
+            "runs_docker_container_tasks": runs_docker_container_tasks,
+            "runs_singularity_container_tasks": runs_singularity_container_tasks,
             "active": active,
         }
 
