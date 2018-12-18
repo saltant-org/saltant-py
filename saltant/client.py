@@ -17,6 +17,7 @@ from saltant.models.executable_task_instance import (
 )
 from saltant.models.executable_task_type import ExecutableTaskTypeManager
 from saltant.models.task_queue import TaskQueueManager
+from saltant.models.task_whitelist import TaskWhitelistManager
 from saltant.models.user import UserManager
 
 
@@ -48,6 +49,8 @@ class Client:
             types.
         task_queues (:class:`saltant.models.task_queues.TaskQueueManager`):
             A manager for performing actions related to task queues.
+        task_whitelists (:class:`saltant.models.task_queues.TaskWhitelistManager`):
+            A manager for performing actions related to task whitelists.
         users (:class:`saltant.models.user.UserManager`):
             A manager for performing actions related to users.
     """
@@ -99,6 +102,7 @@ class Client:
         )
         self.executable_task_types = ExecutableTaskTypeManager(_client=self)
         self.task_queues = TaskQueueManager(_client=self)
+        self.task_whitelists = TaskWhitelistManager(_client=self)
         self.users = UserManager(_client=self)
 
     def test_authentication(self):
