@@ -29,5 +29,8 @@ Model references
 .. autoclass:: saltant.models.task_queue.TaskQueue
     :members:
 
+.. autoclass:: saltant.models.task_whitelist.TaskWhitelist
+    :members:
+
 .. autoclass:: saltant.models.user.User
     :members:

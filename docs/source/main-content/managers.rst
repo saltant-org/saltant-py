@@ -12,6 +12,7 @@ the ``Client`` class; that is,
 + ``Client.executable_task_instances``
 + ``Client.executable_task_types``
 + ``Client.task_queues``
++ ``Client.task_whitelists``
 + ``Client.users``
 
 With these managers you can perform the usual API requests, along with
@@ -34,6 +35,9 @@ Manager references
     :members:
 
 .. autoclass:: saltant.models.task_queue.TaskQueueManager
+    :members:
+
+.. autoclass:: saltant.models.task_whitelist.TaskWhitelistManager
     :members:
 
 .. autoclass:: saltant.models.user.UserManager
